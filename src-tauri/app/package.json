@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.1.5",
+    "@nuxtjs/supabase": "^1.4.0",
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@tauri-apps/api": "^1.6.0",
+    "clipboard": "^2.0.11",
+    "nuxt": "^3.12.4",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "daisyui": "^4.12.10",
+    "nuxt-headlessui": "^1.2.0"
+  }
+}

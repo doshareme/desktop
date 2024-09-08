@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@tauri-apps/cli": "^1.6.0"
+  }
+}
