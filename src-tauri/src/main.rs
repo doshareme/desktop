@@ -42,11 +42,4 @@ let menu = Menu::new()
 fn my_custom_command() {
     println!("I was invoked from JS!");
     // --snip--
-let position = muda::PhysicalPosition { x: 100., y: 120. };
-#[cfg(target_os = "windows")]
-menu.show_context_menu_for_hwnd(window.hwnd() as isize, Some(position.into()));
-#[cfg(target_os = "linux")]
-menu.show_context_menu_for_gtk_window(&gtk_window, Some(position.into()));
-#[cfg(target_os = "macos")]
-unsafe { menu.show_context_menu_for_nsview(nsview, Some(position.into())) };
 }

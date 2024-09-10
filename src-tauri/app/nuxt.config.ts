@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         '/auth/login',
         '/auth/confirm',
         '/auth/*',
-        '/'
+        // '/'
 
       ],
       cookieRedirect: false,
