@@ -1,5 +1,5 @@
 <template>
-    <div class="home overflow-clip select-none" >
+    <div class="home overflow-clip select-none">
         <header>
             <div class="h-auto hidden self-center object-center text-center content-center justify-center align-top">
                 <progress class="progress w-56" value="100" max="100"></progress>
@@ -31,7 +31,7 @@
 
         <div>
          <div class=" m-3 p-2 justify-center">
-            <div class="text-2xl font-bold text-center w-full m-5 py-2" > Welcome Back,<span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > Anna <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle btn-sm btn-outline hover:bg-gradient-to-t hover:from-white hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png" class="w-4 h-4" alt="switch profile"></button></span>👋</div>
+            <div class="text-2xl font-bold text-center w-full m-5 py-2" > Welcome Back,<span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > Anna <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-white btn-sm btn-outline hover:bg-gradient-to-t hover:from-white hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>👋</div>
             <div class="w-full self-center object-center text-center content-center justify-center align-middle">
             <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs">
             <input type="text" class="grow" placeholder="Search" />
@@ -44,9 +44,9 @@
             <div class="heading text-bold text-2xl py-4">Quick Actions</div>
 
             <div class="grid grid-cols-4 gap-4">
-                <button class="max-w-48 button bg-gradient-to-tl from-sky-100 from-35% via-pink-200 to-purple-700 cursor-pointer text-gray-800 font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy" ><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/material-rounded/96/multiple-devices.png" alt="multiple-devices"/><span class="text-sm m-0.5">Sync Files</span></span></button>
                 <button onload="document.getElementById('postcard').classList.remove('bg-gradient-to-tl')" id="postcard" class="hover:animate-gradient-x max-w-48 button bg-gradient-to-tl text-white from-sky-800 from-35% via-gray-500 to-yellow-800 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=22861&format=png&color=ffffff" alt="postcard"/><span class="text-sm m-0.5">Postcard</span></span></button>
-                <button class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-300 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
+                <button class="max-w-48 button bg-gradient-to-tl from-sky-100 from-35% via-pink-200 to-purple-700 cursor-pointer text-gray-800 font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy" ><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/material-rounded/96/multiple-devices.png" alt="multiple-devices"/><span class="text-sm m-0.5">Sync Files</span></span></button>
+                <button class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-400 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y text-black"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
                 <button class="max-w-48 button bg-gradient-to-tl text-black from-blue-300 from-35% via-rose-200 to-rose-100 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=50&id=MFzs48bdCZzQ&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Send Feedback</span></span></button>
             </div>
             <div class="heading text-bold text-2xl py-4">Liked Files and Pages</div>

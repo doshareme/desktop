@@ -9,12 +9,14 @@
   },
   "package": {
     "productName": "DoShare Cloud - Alpha Preview",
-    "version": "0.1.0"
+    "version": "0.1.2"
   },
   "tauri": {
     "allowlist": {
       "all": true
     },
+    
+
     "bundle": {
       "active": true,
       "category": "Utility",
@@ -30,7 +32,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tissue.dev",
+      "identifier": "cloud.doshare.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -46,7 +48,9 @@
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
         "timestampUrl": ""
+        
       }
+      
     },
     "security": {
       "csp": null
@@ -61,7 +65,9 @@
         "resizable": true,
         "title": "DoShare Cloud - Alpha Preview",
         "titleBarStyle": "Transparent",
-        "width": 800
+        "width": 800,
+        "transparent": false,
+        "additionalBrowserArgs": "--disable-features=ElasticOverscroll"
       }
     ]
   }
