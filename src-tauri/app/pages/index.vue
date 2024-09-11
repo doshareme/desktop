@@ -1,10 +1,36 @@
+<script setup>
+// When using the Tauri API npm package:
+import { invoke } from "@tauri-apps/api/tauri";
+import { useFetch } from "nuxt/app";
+const { data } = await useFetch("/api/index");
+//---For Future Reference---
+// When using the Tauri global script (if not using the npm package)
+// Be sure to set `build.withGlobalTauri` in `tauri.conf.json` to true
+// const invoke = window.__TAURI__.invoke;
+// ------------------------
+
+import { listen } from "@tauri-apps/api/event";
+
+listen('tauri://file-drop', event => {
+  console.log(event)
+})
+const supabase = useSupabaseClient()
+supabase.auth.getSession().then((session) => {
+  if (!session) {
+    navigateTo('/auth/login')
+  }
+})
+const authdata = await supabase.auth.getUser()
+console.log(authdata)
+</script>
+
 <template>
     <div class="home overflow-clip select-none">
         <header>
             <div class="h-auto hidden self-center object-center text-center content-center justify-center align-top">
                 <progress class="progress w-56" value="100" max="100"></progress>
             </div>
-            <nav class="flex flex-wrap m-2 p-4 justify-center">
+            <nav class="flex flex-wrap m-2 p-4 justify-center ">
                 <div
                     className="h-19 hover:cursor-none select-none p-0.5 w-96 rounded-full flex bg-white bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-700"
                 >
@@ -16,13 +42,14 @@
                     </div>
                     <div
                         className="h-18 focus:text-xl select-none hover:cursor-none hover:font-thin  hover:text-xl  w-1/3 p-2 flex flex-wrap align-middle justify-center rounded-full bg-clip-padding bg-opacity-40"
-                        v-on:click="console.log(data)"
+                        v-on:click="navigateTo('/settings')"
                     >
                      Settings
                     </div>
                     <div
                         className="h-18 focus:text-xl select-none hover:cursor-none hover:font-thin hover:text-xl w-1/3 p-2 flex flex-wrap align-middle justify-center rounded-full bg-clip-padding bg-opacity-40"
-                    >
+                        v-on:click="navigateTo('/about')"
+                        >
                         About
                     </div>
                 </div>
@@ -31,7 +58,7 @@
 
         <div>
          <div class=" m-3 p-2 justify-center">
-            <div class="text-2xl font-bold text-center w-full m-5 py-2" > Welcome Back,<span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > Anna <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-white btn-sm btn-outline hover:bg-gradient-to-t hover:from-white hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>👋</div>
+            <div class="text-2xl font-bold text-center w-full m-5 py-2" > Welcome Back,<span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-white btn-sm btn-outline hover:bg-gradient-to-t hover:from-white hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>👋</div>
             <div class="w-full self-center object-center text-center content-center justify-center align-middle">
             <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs">
             <input type="text" class="grow" placeholder="Search" />
@@ -74,10 +101,11 @@
     <h3 class="text-lg font-bold">My Account</h3>
     <p class="py-4">
 
-<div class="flex items-center gap-4">
+<div class="flex items-center gap-4 w-full cursor-pointer rounded-md hover:bg-gray-200 p-4" onmouseenter="document.getElementById('accemail').classList.remove('hidden')" onmouseleave="document.getElementById('accemail').classList+=' hidden'">
     <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="">
-    <div class="font-medium dark:text-white">
-        <div>Jese Leos</div>
+    <div class="font-medium dark:text-white" >
+        <div > {{authdata.data.user.email.split("@",1)[0]}} </div>
+        <div id="accemail" class="text-sm text-gray-400 hidden"> {{authdata.data.user.email}} </div>
         <div class="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
     </div>
 </div>
@@ -86,11 +114,12 @@
     <h3 class="text-lg font-bold">Switch Accounts</h3>
     <span class="text-sm text-gray-500 dark:text-gray-400">Previously logged in to </span>
 <div class="grid grid-flow-col grid-cols-3 space-x-2 m-2">
-
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer " src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Bordered avatar">
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Bordered avatar">
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bordered avatar">
-    <button class="text-black active:text-pretty select-none">New Account</button>
+    <div class="tooltip tooltip-bottom p-4 m-2 " data-tip="Test User" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Bordered avatar">
+</div>
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Bordered avatar">
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bordered avatar">
+    <a href="/auth/signup"><button class="text-black active:text-pretty select-none">New Account</button></a>
 </div>
 
     <div class="modal-action">
@@ -105,21 +134,3 @@
 
     </div>
 </template>
-<script setup>
-// When using the Tauri API npm package:
-import { invoke } from "@tauri-apps/api/tauri";
-import { useFetch } from "nuxt/app";
-const { data } = await useFetch("/api/index");
-//---For Future Reference---
-// When using the Tauri global script (if not using the npm package)
-// Be sure to set `build.withGlobalTauri` in `tauri.conf.json` to true
-// const invoke = window.__TAURI__.invoke;
-// ------------------------
-
-import { listen } from "@tauri-apps/api/event";
-
-listen('tauri://file-drop', event => {
-  console.log(event)
-})
-
-</script>

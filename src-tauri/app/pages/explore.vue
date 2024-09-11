@@ -8,6 +8,7 @@
 </style>
 
 <template>
+    <div class="select-none">
     <!-- <div class="breadcrumbs text-sm m-4">
   <ul>
     <li>
@@ -52,7 +53,7 @@
     We'll hold on it for you
     </div>
 </div> -->
-<div class="breadcrumbs text-sm m-4">
+<div class="breadcrumbs text-sm m-4 select-none">
   <ul>
     <li>
       <a href="/">
@@ -89,13 +90,37 @@
     
   </ul>
 </div>
-<div class="flex flex-col w-24 h-36 m-4 bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample Document">
+<div class="flex flex-row">
+    <div onclick=""  id="d" class="w-24 h-36 m-2 ml-4 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample Document">
 <img width="96" height="96" src="https://img.icons8.com/glassmorphism/96/product-documents.png" alt="product-documents"/>
 <span class="inline h-8 text-sm">
-    Sample Document
+    Sample Folder
 </span>
-
-
+</div>
+<div class="w-24 h-36 m-2 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample File">
+<img width="96" height="96" src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+<span class="inline h-8 text-sm">
+    Sample File
+</span>
+</div>
+<div onclick=""  id="d" class="w-24 h-36 m-2 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample Folder with Folder">
+<img width="96" height="96" src="https://img.icons8.com/glassmorphism/96/folder-invoices.png" alt="product-documents"/>
+<span class="inline h-8 text-sm">
+    Sample Folder with Folder
+</span>
+</div>
+<div onclick="" onmouseleave="document.removeE" id="d" class="w-24 h-36 m-2 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample Emply File">
+<img width="96" height="96" src="https://img.icons8.com/fluency/96/file.png" alt="product-documents"/>
+<span class="inline h-8 text-sm">
+    Sample Empty File
+</span>
+</div>
+<div onclick="" onmouseleave="document.removeE" id="d" class="w-24 h-36 m-4 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" data-tip="Sample Empty Folder">
+<img width="96" height="96" src="https://img.icons8.com/fluency/96/box.png" alt="product-documents"/>
+<span class="inline h-8 text-sm">
+    Sample Empty Folder
+</span>
+</div>
 </div>
 <p id="p1" draggable="true">This element is draggable.</p>
 
@@ -103,16 +128,23 @@
 <p id="target" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
   Drop Zone
 </p>
-
+</div>
 </template>
 <script>
 let img = new Image();
 img.src = "https://go.doshare.me/6cbd/squid.jpg";
+function clickHandler() {
+    console.log("Clicked");
+    document.addEventListener('keydown', function(event) {
+    console.log('Key pressed:', event.key);
+});
+  }
 
   function dragstartHandler(ev) {
     // Add the target element's id to the data transfer object
     // ev.dataTransfer.setData("text/plain", ev.target.id);
     ev.dataTransfer.setDragImage(img, 10, 10);
+    ev.dataTransfer.setData("jpeg/image", img.src);
 
   }
   function dragoverHandler(ev) {
@@ -130,5 +162,7 @@ img.src = "https://go.doshare.me/6cbd/squid.jpg";
     const element = document.getElementById("p1");
     // Add the ondragstart event listener
     element.addEventListener("dragstart", dragstartHandler);
+    document.getElementById("d").addEventListener("click", clickHandler);
+
   });
 </script>
