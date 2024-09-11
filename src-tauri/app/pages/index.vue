@@ -39,7 +39,7 @@
             <kbd class="kbd kbd-sm text-gray-400">K</kbd>
             </label>
             <br/>
-            <sub><a href="#" class="text-blue-500">I remember vaguely →_→</a></sub>
+            <!-- <sub><a href="#" class="text-blue-500">I remember vaguely →_→</a></sub> -->
             </div>
             <div class="heading text-bold text-2xl py-4">Quick Actions</div>
 
@@ -49,7 +49,7 @@
                 <button class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-400 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y text-black"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
                 <button class="max-w-48 button bg-gradient-to-tl text-black from-blue-300 from-35% via-rose-200 to-rose-100 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=50&id=MFzs48bdCZzQ&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Send Feedback</span></span></button>
             </div>
-            <div class="heading text-bold text-2xl py-4">Liked Files and Pages</div>
+            <div class="heading text-bold text-2xl py-4">Liked Files and Pages<span><a href="/explore" class="link text-sm m-3">View all files</a></span></div>
             <div class="grid grid-cols-4 gap-4">
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
