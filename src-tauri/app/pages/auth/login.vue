@@ -3,7 +3,7 @@ const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
 // if existing login
-if (supabase.auth.session()) {
+if (supabase.auth.session) {
   navigateTo('/')
 }
 const signInWithOtp = async () => {
