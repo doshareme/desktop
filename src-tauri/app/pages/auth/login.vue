@@ -9,17 +9,17 @@ const signInWithOtp = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
-    redirectTo: 'http://localhost:3000/confirm',
+    // redirectTo: 'http://localhost:3000/confirm',
     options: {
       redirectTo: 'http://localhost:3000/confirm',
-      emailredirect: 'http://localhost:3000/confirm',
+      // emailredirect: 'http://localhost:3000/confirm',
     }
 }).then((res) => {
     console.log(res)
     console.log('User signed in successfully')
 
-    // console.log(data)
-    // console.log(data.user)
+    console.log(data)
+    console.log(data.user)
     // console.log(data.user.email)
     // console.log(data.user.id)
     // console.log(data.user.user_metadata)
@@ -27,9 +27,8 @@ const signInWithOtp = async () => {
 })
   if (error) console.log(error)
 }
-// if (supabase.auth.getUser()) {
-//   navigateTo('/')
-// }
+const {data,error} = await supabase.auth.getUser()
+console.log(data)
 </script>
 <template>
   <div>
@@ -52,7 +51,7 @@ const signInWithOtp = async () => {
       </a>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <div role="alert" class="alert alert-info" v-if="supabase.auth.getUser()">
+            <div role="alert" class="alert alert-info" v-if="data.user">
               🧙‍♂️
   <span >Existing Account Found <a class="cursor-pointer link" @click="navigateTo('/')"> view wizard </a></span>
 </div>
@@ -62,11 +61,11 @@ const signInWithOtp = async () => {
               <form autocomplete="off" class="space-y-4 md:space-y-6" >
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                      <input aria-autocomplete="none" v-model="email" type="email" name="email_addr" id="email_addr" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" autocomplete="off" required="">
+                      <input aria-autocomplete="none" v-model="email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" autocomplete="off" required="">
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                      <input v-model="password" type="passwordaddr" name="password_addr" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="off" required="">
+                      <input v-model="password" type="passwordaddr" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" autocomplete="off" required="">
                   </div>
                   <div class="flex items-center justify-between">
                       <div class="flex items-start">
