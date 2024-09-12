@@ -2,14 +2,14 @@
 const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
-const signInWithOtp = async () => {
+const signUp = async () => {
 
 const { data,error } = await supabase.auth.signUp({
-  email: 'example2@email.com',
-  password: 'example-2password',
+  email: 'exampl2@email.com',
+  password: 'exampe-2password',
   options: {
       data: {
-        first_name: 'John',
+        first_name: 'Jhn',
         last_name: 'Doe',
         age: 27,
       }
@@ -64,8 +64,8 @@ console.log(data)
                           </div> -->
                       </div>
                   </div>
-                  <button @click="signInWithOtp" class="w-full text-white bg-black hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>                  <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                      <div v-if="data" class="link"><a href="/">Go to home</a></div>
+                  <button @click="signUp" class="w-full text-white bg-black hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>                  <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                      <div v-if="data.user" class="link"><a href="/">Go to home</a></div>
                        <div> Already have an account? <a href="/auth/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a></div>
                   </p>
               </form>
