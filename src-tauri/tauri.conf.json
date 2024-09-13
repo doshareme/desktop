@@ -63,6 +63,9 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
+          "minHeight": 590,
+          "minWidth": 500,
+        
         "title": "DoShare Cloud - Alpha Preview",
         "titleBarStyle": "Transparent",
         "width": 800,
