@@ -3,6 +3,21 @@ const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
 // if existing login
+supabase.auth.onAuthStateChange((event, session) => {
+  console.log(event, session)
+  if (event === 'SIGNED_IN') {
+    navigateTo('/')
+  }
+})
+
+supabase.auth.getSession().then((data) => {
+  if(data.data.session!==null){
+    if(data.data.session.user.id){
+    navigateTo('/')
+  }
+  }
+
+})
 
 const signInWithOtp = async () => {
     console.log(email.value, password.value)
@@ -20,7 +35,6 @@ const signInWithOtp = async () => {
 const {data,error} = await supabase.auth.getUser()
 console.log(data)
 async function formSubmit(event) {
-  event.preventDefault()
   const {data,error} = await supabase.auth.getUser()
   console.log(data.user)
   console.log('form submitted')

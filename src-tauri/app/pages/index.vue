@@ -25,7 +25,7 @@ console.log(authdata)
 </script>
 
 <template>
-    <div class="home overflow-clip select-none">
+    <div class="home overflow-clip select-none  ">
         <header>
             <div class="h-auto hidden self-center object-center text-center content-center justify-center align-top">
                 <progress class="progress w-56" value="100" max="100"></progress>
@@ -58,7 +58,7 @@ console.log(authdata)
 
         <div>
          <div class=" m-3 p-2 justify-center">
-            <div class="text-2xl font-bold text-center w-full m-5 py-2" > Welcome Back,<span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-white btn-sm btn-outline hover:bg-gradient-to-t hover:from-white hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>👋</div>
+            <div class="text-2xl font-bold text-center w-full m-5 py-2" > How's it going, <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>?👋</div>
             <div class="w-full self-center object-center text-center content-center justify-center align-middle">
             <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs">
             <input type="text" class="grow" placeholder="Search" />
@@ -68,7 +68,7 @@ console.log(authdata)
             <br/>
             <!-- <sub><a href="#" class="text-blue-500">I remember vaguely →_→</a></sub> -->
             </div>
-            <div class="heading text-bold text-2xl py-4">Quick Actions</div>
+            <div class="heading text-bold text-2xl py-4 flex flex-row"> Quick Actions <img class="ml-2 h-6" src="https://img.icons8.com/led/32/aquarius.png" alt="popular-topic"/></div>
 
             <div class="grid grid-cols-4 gap-4">
                 <button onload="document.getElementById('postcard').classList.remove('bg-gradient-to-tl')" id="postcard" class="hover:animate-gradient-x max-w-48 button bg-gradient-to-tl text-white from-sky-800 from-35% via-gray-500 to-yellow-800 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=22861&format=png&color=ffffff" alt="postcard"/><span class="text-sm m-0.5">Postcard</span></span></button>
@@ -76,20 +76,56 @@ console.log(authdata)
                 <button class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-400 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y text-black"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
                 <button class="max-w-48 button bg-gradient-to-tl text-black from-blue-300 from-35% via-rose-200 to-rose-100 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=50&id=MFzs48bdCZzQ&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Send Feedback</span></span></button>
             </div>
-            <div class="heading text-bold text-2xl py-4">Liked Files and Pages<span><a href="/explore" class="link text-sm m-3">View all files</a></span></div>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="heading text-bold text-2xl py-4 flex flex-row"> Wizard Actions <img class="ml-2 h-6" src="https://img.icons8.com/led/32/aquarius.png" alt="popular-topic"/></div>
+
+<div class="grid grid-cols-4 gap-4">
+    <a href="/explore"><button  class="card card-body hover:bg-[#dfe3e7]"><img class="h-8" src="https://img.icons8.com/fluency-systems-filled/50/user-folder.png" alt="user-folder"/><span class="inline-flex items-center py-0.5"><span class="text-sm m-0.5">Go to Wizard</span></span></button></a>
+    <button  class="card card-body hover:bg-[#dfe3e7]"><img class="h-8" src="https://img.icons8.com/fluency-systems-filled/50/user-folder.png" alt="user-folder"/><span class="inline-flex items-center py-0.5"><span class="text-sm m-0.5">Documents</span></span></button>
+    <button  class="card card-body hover:bg-[#dfe3e7]"><img class="h-8" src="https://img.icons8.com/fluency-systems-filled/50/user-folder.png" alt="user-folder"/><span class="inline-flex items-center py-0.5"><span class="text-sm m-0.5">Pictures</span></span></button>
+    <button  class="card card-body hover:bg-[#dfe3e7]"><img class="h-8" src="https://img.icons8.com/fluency-systems-filled/50/user-folder.png" alt="user-folder"/><span class="inline-flex items-center py-0.5"><span class="text-sm m-0.5">Videos</span></span></button>
+
+</div>
+            <div class="collapse collapse-arrow">
+  <input type="radio" name="my-accordion-2" />
+  
+  <div  class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8" src="https://img.icons8.com/led/32/galaxy.png" alt="add-to-favorites"/>Liked Files and Pages</div>
+  <div class="collapse-content">
+    <div class="sm:flex sm:flex-col md:grid md:grid-cols-4 md:gap-4 ">
+                <div class="skeleton h-32 w-full md:w-32 m-2"></div>
+                <div class="skeleton h-32 w-full md:w-32 m-2"></div>
+                <div class="skeleton h-32 w-full md:w-32 m-2"></div>
+                <div class="skeleton h-32 w-full md:w-32 m-2"></div>
+            </div>
+      </div>
+<div class="collapse collapse-arrow ">
+  <input type="radio" name="my-accordion-2" />
+  <div class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8 bg-base-500"  src="https://img.icons8.com/led/32/replay.png" alt="replay"/>Recent Files</div>
+  <div class="collapse-content">
+    <div class="grid grid-cols-4 gap-4">
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
             </div>
+          </div>
+</div>
+            </div>
+<!-- <div class="collapse collapse-arrow ">
+  <input type="radio" name="my-accordion-2" />
+  <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+  <div class="collapse-content">
+    <p>hello</p>
+  </div>
+</div> -->
+            <!-- <div class="">Liked Files and Pages<span><a href="/explore" class="link text-sm m-3">View all files</a></span></div>
+            
             <div class="heading text-bold text-2xl py-4">Previous Files</div>
             <div class="grid grid-cols-4 gap-4">
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
                 <div class="skeleton h-32 w-32"></div>
-            </div>
+            </div> -->
 
 
          </div>
@@ -114,11 +150,25 @@ console.log(authdata)
     <h3 class="text-lg font-bold">Switch Accounts</h3>
     <span class="text-sm text-gray-500 dark:text-gray-400">Previously logged in to </span>
 <div class="grid grid-flow-col grid-cols-3 space-x-2 m-2">
-    <div class="tooltip tooltip-bottom p-4 m-2 " data-tip="Test User" >
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Bordered avatar">
+    <div class="tooltip tooltip-bottom p-4 m-1  " data-tip="Test User" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Bordered avatar"> 
 </div>
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Bordered avatar">
+<div class="tooltip tooltip-bottom " data-tip="Test User" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Bordered avatar">
+</div>
+<div class="tooltip tooltip-bottom p-4 m-2" data-tip="Test User" >
     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bordered avatar">
+    
+</div>
+<div class="tooltip tooltip-bottom fixed pt-16 mt-8" data-tip="Test User" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Bordered avatar">
+</div>
+<div class="tooltip tooltip-bottom pt-16 mt-8 mr-30 float-right right-12 " data-tip="Test User 2" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Bordered avatar">
+</div>
+<div class="tooltip tooltip-bottom pt-32 mr-4 mt-6 float-right right-44" data-tip="Test User 2" >
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Bordered avatar">
+</div>
     <a href="/auth/signup"><button class="text-black active:text-pretty select-none">New Account</button></a>
 </div>
 
@@ -131,6 +181,8 @@ console.log(authdata)
   </div>
 </dialog>
 
+<button title="Contact Sale"
+        class="fixed z-90 bottom-10 right-8 bg-white text-blue-600 w-8 h-8 rounded-full drop-shadow-lg flex justify-center items-center  text-4xl hover:bg-blue-700 hover:text-white hover:drop-shadow-2xl tooltip" data-tip="Help Me!" >i</button>
 
     </div>
 </template>
