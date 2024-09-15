@@ -16,6 +16,7 @@
     "@tauri-apps/api": "^1.6.0",
     "clipboard": "^2.0.11",
     "nuxt": "^3.12.4",
+    "tauri-plugin-context-menu": "^0.8.0",
     "vue": "latest"
   },
   "devDependencies": {
