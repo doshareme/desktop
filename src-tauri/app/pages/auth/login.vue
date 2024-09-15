@@ -9,11 +9,14 @@ supabase.auth.onAuthStateChange((event, session) => {
     navigateTo('/')
   }
 })
-
+window.addEventListener("contextmenu", async (e) =>{
+  e.preventDefault();
+}
+);
 supabase.auth.getSession().then((data) => {
   if(data.data.session!==null){
     if(data.data.session.user.id){
-    navigateTo('/')
+    // navigateTo('/')
   }
   }
 

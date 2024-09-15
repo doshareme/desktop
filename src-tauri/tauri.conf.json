@@ -8,8 +8,8 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "DoShare Cloud - Alpha Preview",
-    "version": "0.1.2"
+    "productName": "DoShare Cloud - Beta Preview",
+    "version": "0.2.1"
   },
   "tauri": {
     "allowlist": {
