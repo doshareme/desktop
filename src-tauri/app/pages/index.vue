@@ -8,11 +8,93 @@ const { data } = await useFetch("/api/index");
 // Be sure to set `build.withGlobalTauri` in `tauri.conf.json` to true
 // const invoke = window.__TAURI__.invoke;
 // ------------------------
+// window.addEventListener("contextmenu", async (e) =>{
+//   e.preventDefault();
+// }
+// );
+import { listen } from "@tauri-apps/api/event";
+function download(uri, filename = uri) {
+  return fetch(new Request(uri))
+    .then(response => response.blob())
+    .then(blob => {
+      let objectURL = URL.createObjectURL(blob);
+      let link = document.createElement("a");
+      link.href = objectURL;
+      link.download = filename.substr(filename.lastIndexOf('/') + 1); // no path
+      link.click();
+      URL.revokeObjectURL(objectURL);
+    });
+}
+import { resolveResource } from "@tauri-apps/api/path";
+
+// Listen to the event emitted when the first menu item is clicked
+listen("item1clicked", (event) => {
+    console.log("Item 1 clicked with payload:", event.payload);
+    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+        const userId = authdata.data.user.id; // Sample user ID
+        const file = event.payload;
+        const filedata = data.value;
+        for (let index = 0; index < filedata.length; index++) {
+          const element = filedata[index];
+          if(element.filename==file){
+            var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
+            console.log(element.file_id);
+            download(fileUrl, element.filename);
+            document.getElementById('file-toast-bottom-left').classList.remove('hidden');
+            setTimeout(function(){document.getElementById('file-toast-bottom-left').classList.add('hidden')},800)
+
+            }
+        }
+});
+listen("item2clicked", (event) => {
+    console.log("Item 1 clicked with payload:", event.payload);
+    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+        const userId = authdata.data.user.id; // Sample user ID
+        const file = event.payload;
+        const filedata = data.value;
+        for (let index = 0; index < filedata.length; index++) {
+          const element = filedata[index];
+          if(element.filename==file){
+            var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
+            console.log(element.file_id);
+            navigator.clipboard.writeText(fileUrl);
+            document.getElementById('clip-toast-bottom-left').classList.remove('hidden');
+            setTimeout(function(){document.getElementById('clip-toast-bottom-left').classList.add('hidden')},800)
+
+            }
+        }
+});
+listen("item3clicked", (event) => {
+    console.log("Item 1 clicked with payload:", event.payload);
+    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+        const userId = authdata.data.user.id; // Sample user ID
+        const file = event.payload;
+        const filedata = data.value;
+        for (let index = 0; index < filedata.length; index++) {
+          const element = filedata[index];
+          if(element.filename==file){
+            var fileUrl = `${API_BASE_URL}/delete/${element.file_id}?user_id=${userId}`;
+            console.log(element.file_id);
+            $fetch(fileUrl, {
+              method: 'DELETE'
+            }).then(response => {
+              console.log(response);
+              window.location.reload();
+            });
+
+                 // window.location.reload();
+            // download(fileUrl, element.filename);
+
+
+            }
+        }
+});
+
+
 window.addEventListener("contextmenu", async (e) =>{
   e.preventDefault();
 }
 );
-import { listen } from "@tauri-apps/api/event";
 
 listen('tauri://file-drop', event => {
   console.log(event)
@@ -41,7 +123,7 @@ function sendFeedback() {
   })
 }
 var recentFiles = {}
-var recentFileList = []
+var recentFileList = ref([])
 const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
 const {recentdata,recerror}= useFetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data) => {
@@ -55,9 +137,9 @@ const {recentdata,recerror}= useFetch(`${API_BASE_URL}/search?q=&user_id=${userI
   recentFiles = Object.keys(recentFiles).sort().reverse().splice(0,4).map(key => recentFiles[key])
     console.log(recentFiles)
     for (let i = 0; i < recentFiles.length; i++) {
-      recentFileList.push(recentFiles[i])
+      recentFileList.value.push(recentFiles[i])
     }
-    console.log(recentFileList)
+    console.log(recentFileList.value)
   return data
 });
 if(recentdata!=null){
@@ -155,10 +237,41 @@ window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}
   <input type="radio" name="my-accordion-2" />
   <div class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8 bg-base-500"  src="https://img.icons8.com/led/32/replay.png" alt="replay"/>Recent Files</div>
   <div class="collapse-content">
-    <div class="sm:flex sm:flex-col md:grid md:grid-cols-4 md:gap-4 " v-for="file in recentFileList">
-               <div class="card h-32 w-full md:w-32 m-2 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip tooltip-right cursor-pointer rounded-md" :data-tip="file">
+    <div class="sm:flex sm:flex-col md:grid md:grid-cols-4 md:gap-4 " >
+               <div v-for="file in recentFileList" class="card h-32 w-full md:w-32 m-2 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip tooltip-right cursor-pointer rounded-md" :data-tip="file">
+                <span v-on:contextmenu="async (e) => {
+    e.preventDefault();
+    const iconUrl = await resolveResource('assets/16x16.png');
+
+    // Show the context menu
+    invoke('plugin:context_menu|show_context_menu', {
+        items: [
+            {
+                label: 'Download File',
+                event: 'item1clicked',
+                payload:file
+            },
+            {
+                label: 'Share File',
+                event: 'item2clicked',
+                payload:file
+
+            },
+            {
+                is_separator: true,
+            },
+            {
+                label: 'Delete File',
+                event: 'item3clicked',
+                payload:file
+
+            },
+        ],
+    });
+}">
                                   <img class="w-32 h-32" src="https://img.icons8.com/3d-fluency/94/document.png" alt="user-folder"/>
                                   <div class="text-sm font-medium overflow-y-hidden"> {{file}} </div>
+                                  </span>
                                
                </div>
             </div>
@@ -198,7 +311,7 @@ window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}
     <div class="font-medium dark:text-white" >
         <div > {{authdata.data.user.email.split("@",1)[0]}} </div>
         <div id="accemail" class="text-sm text-gray-400 hidden"> {{authdata.data.user.email}} </div>
-        <div class="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Joined in {{ new Date(authdata.data.user.created_at).getFullYear() }}</div>
     </div>
 </div>
 <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">

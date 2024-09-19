@@ -3,24 +3,24 @@ const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
 // if existing login
-supabase.auth.onAuthStateChange((event, session) => {
-  console.log(event, session)
-  if (event === 'SIGNED_IN') {
-    navigateTo('/')
-  }
-})
-window.addEventListener("contextmenu", async (e) =>{
-  e.preventDefault();
-}
-);
-supabase.auth.getSession().then((data) => {
-  if(data.data.session!==null){
-    if(data.data.session.user.id){
-    // navigateTo('/')
-  }
-  }
-
-})
+// supabase.auth.onAuthStateChange((event, session) => {
+//   console.log(event, session)
+//   if (event === 'SIGNED_IN') {
+//     console.log('User signed in successfully')
+//     navigateTo('/')
+//   }
+// })
+// window.addEventListener("contextmenu", async (e) =>{
+//   e.preventDefault();
+// }
+// );
+// supabase.auth.getSession().then((data) => {
+//   if(data.data.session!==null){
+//     if(data.data.session.user.id){
+//     // navigateTo('/')
+//   }
+//   }
+// })
 
 const signInWithOtp = async () => {
     console.log(email.value, password.value)
@@ -29,7 +29,7 @@ const signInWithOtp = async () => {
     password: password.value,
     // redirectTo: 'http://localhost:3000/confirm',
     options: {
-      redirectTo: 'http://localhost:3000/confirm',
+      // redirectTo: window.location.origin+'/confirm',
       // emailredirect: 'http://localhost:3000/confirm',
     }
 })
@@ -71,7 +71,7 @@ async function formSubmit(event) {
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Sign in to your account
               </h1>
-              <form autocomplete="off" class="space-y-4 md:space-y-6" @submit="formSubmit">
+              <form autocomplete="off" class="space-y-4 md:space-y-6" @submit="">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                       <input aria-autocomplete="none" v-model="email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" autocomplete="off" required="">
