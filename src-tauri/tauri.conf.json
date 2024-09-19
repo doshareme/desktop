@@ -1,15 +1,15 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "npx nuxi generate",
+    "beforeBuildCommand": "npx nuxi build",
     "beforeDevCommand": "npx nuxi dev",
     "devPath": "http://localhost:3000",
     "distDir": "app/.output/public",
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "DoShare Cloud - Beta Preview",
-    "version": "0.2.1"
+    "productName": "Personal Cloud - Beta Preview",
+    "version": "0.2.2"
   },
   "tauri": {
     "allowlist": {
@@ -53,7 +53,7 @@
       
     },
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; img-src *; media-src *; script-src *; style-src *"
     },
     "updater": {
       "active": false
@@ -66,7 +66,7 @@
           "minHeight": 590,
           "minWidth": 500,
         
-        "title": "DoShare Cloud - Alpha Preview",
+        "title": "Personal Cloud - Beta Preview",
         "titleBarStyle": "Transparent",
         "width": 800,
         "transparent": false,

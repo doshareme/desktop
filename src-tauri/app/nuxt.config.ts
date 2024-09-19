@@ -11,11 +11,11 @@ export default defineNuxtConfig({
   supabase: {
     redirectOptions: {
       login: '/auth/login',
-      callback: '/auth/confirm',
+      callback: '/confirm',
       include: undefined,
       exclude: [
         '/auth/login',
-        '/auth/confirm',
+        '/confirm',
         '/auth/*',
         // '/'
 
