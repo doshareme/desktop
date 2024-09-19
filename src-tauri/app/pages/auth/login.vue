@@ -22,16 +22,24 @@ const password = ref('')
 //   }
 // })
 
-const signInWithOtp = async () => {
+function signInWithOtp(e) {
+    e.preventDefault()
     console.log(email.value, password.value)
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value,
     // redirectTo: 'http://localhost:3000/confirm',
     options: {
-      // redirectTo: window.location.origin+'/confirm',
+      redirectTo: window.location.origin+'/confirm',
       // emailredirect: 'http://localhost:3000/confirm',
     }
+}).then((data)=>{
+  console.log(data)
+  console.log('User signed in successfully')
+  navigateTo('/')
+}).catch((error) => {
+  e.preventDefault()
+  console.log(error)
 })
   if (error) console.log(error)
 }

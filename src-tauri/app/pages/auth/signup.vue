@@ -5,7 +5,10 @@ const lastName = ref('')
 const email = ref('')
 const password = ref('')
 const signUp = async () => {
-
+  window.addEventListener("contextmenu", async (e) =>{
+  e.preventDefault();
+}
+);
 const { data,error } = await supabase.auth.signUp({
   email: email.value,
   password: password.value,
