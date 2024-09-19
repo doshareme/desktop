@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "npx nuxi build",
+    "beforeBuildCommand": "npx nuxi generate",
     "beforeDevCommand": "npx nuxi dev",
     "devPath": "http://localhost:3000",
     "distDir": "app/.output/public",
@@ -53,7 +53,9 @@
       
     },
     "security": {
-      "csp": "default-src 'self'; img-src *; media-src *; script-src *; style-src *"
+      "csp": "default-src *; img-src *; media-src *; script-src *; style-src *;connect-src *",
+      "dangerousUseHttpScheme" : true
+
     },
     "updater": {
       "active": false
