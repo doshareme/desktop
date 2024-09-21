@@ -3,6 +3,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { useFetch } from "nuxt/app";
 const { data } = await useFetch("/api/index");
+// navigateTo('/onboard/1')
 //---For Future Reference---
 // When using the Tauri global script (if not using the npm package)
 // Be sure to set `build.withGlobalTauri` in `tauri.conf.json` to true
@@ -224,7 +225,7 @@ window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}
             <div class="collapse collapse-arrow">
   <input type="radio" name="my-accordion-2" />
   
-  <div  class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8" src="https://img.icons8.com/led/32/galaxy.png" alt="add-to-favorites"/>Liked Files and Pages</div>
+  <!-- <div  class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8" src="https://img.icons8.com/led/32/galaxy.png" alt="add-to-favorites"/>Liked Files and Pages</div> -->
   <div class="collapse-content">
     <div class="sm:flex sm:flex-col md:grid md:grid-cols-4 md:gap-4 ">
                 <!-- <div class="skeleton h-32 w-full md:w-32 m-2"></div>

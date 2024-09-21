@@ -5,9 +5,14 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/supabase",
+    '@nuxtjs/plausible'
   ],
   ssr: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
+  plausible: {
+    domain: 'cloud.doshare.me',
+    trackLocalhost: true,
+  },
   supabase: {
     redirectOptions: {
       login: '/auth/login',

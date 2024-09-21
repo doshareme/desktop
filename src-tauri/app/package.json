@@ -1,6 +1,7 @@
 {
   "name": "nuxt-app",
   "private": true,
+  "version": "2.3.0",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
@@ -20,6 +21,7 @@
     "vue": "latest"
   },
   "devDependencies": {
+    "@nuxtjs/plausible": "^1.0.2",
     "daisyui": "^4.12.10",
     "nuxt-headlessui": "^1.2.0"
   }
