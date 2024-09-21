@@ -4,12 +4,13 @@ const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
 const password = ref('')
-const signUp = async () => {
+function signUp(e){
+  e.preventDefault()
   window.addEventListener("contextmenu", async (e) =>{
   e.preventDefault();
 }
 );
-const { data,error } = await supabase.auth.signUp({
+const { data,error } = supabase.auth.signUp({
   email: email.value,
   password: password.value,
   options: {
@@ -21,7 +22,23 @@ const { data,error } = await supabase.auth.signUp({
 }).then((res) => {
   console.log(res)
   console.log('User signed up successfully')
+  if(res.data.user){
+    document.getElementById('feedback-sent').classList.remove('hidden')
+  setTimeout(() => {
+    document.getElementById('feedback-sent').classList.add('hidden')
+  }, 5000);
+  }
+}).catch((error) => {
+  console.log(error)
+  document.getElementById('feedback-sent').innerHTML = "Error: "+error.message
+  document.getElementById('feedback-sent').classList.remove('hidden')
+  setTimeout(() => {
+    document.getElementById('feedback-sent').classList.add('hidden')
+  }, 5000);
+  document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
 })
+
+
 if (error) console.log(error)
 }
 const {data,error} = await supabase.auth.getUser()
@@ -36,13 +53,16 @@ console.log(data)
           <!-- <img class="w-8 h-8 mr-2" src="" alt="logo"> -->
           Personal Cloud
       </a>
+      <div id="feedback-sent" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+    <div class="text-sm font-normal">We've sent you a confirmation mail, please check 💖</div>
+</div>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
 
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Register a new account
               </h1>
-              <form autocomplete="off" class="space-y-4 md:space-y-6" >
+              <form autocomplete="off" class="space-y-4 md:space-y-6" @submit="">
                 <div>
                       <label for="display_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">So, what should we call you 🤔?</label>
                       <div class="flex flex-row">
