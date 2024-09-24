@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "Personal Cloud - Beta Preview",
-    "version": "0.2.3"
+    "version": "0.2.5"
   },
   "tauri": {
     "allowlist": {
@@ -55,7 +55,6 @@
     "security": {
       "csp": "default-src *; img-src *; media-src *; script-src *; style-src *;connect-src *",
       "dangerousUseHttpScheme" : true
-
     },
     "updater": {
       "active": false

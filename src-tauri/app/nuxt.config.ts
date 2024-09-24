@@ -5,8 +5,18 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/supabase",
-    '@nuxtjs/plausible'
+    '@nuxtjs/plausible',
+    "@sentry/nuxt/module"
+    
   ],
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: "doshare",
+      project: "nuxt",
+      authToken: "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",
+    },
+
+  },
   ssr: false,
   devtools: { enabled: false },
   plausible: {
@@ -27,5 +37,7 @@ export default defineNuxtConfig({
       ],
       cookieRedirect: false,
     }  
-  }
+  },
+  
+
 });

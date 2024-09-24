@@ -36,11 +36,28 @@ function signInWithOtp(e) {
 }).then((data)=>{
   console.log(data)
   console.log('User signed in successfully')
+  if(data.error===null){
+    // document.getElementById('feedback-sent').classList.remove('hidden')
   navigateTo('/')
+  }else{
+    document.getElementById('feedback-sent').innerHTML = "Error: "+data.error.message
+    document.getElementById('feedback-sent').classList.remove('hidden')
+    setTimeout(() => {
+      document.getElementById('feedback-sent').classList.add('hidden')
+      document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
+    }, 5000);
+  }
 }).catch((error) => {
   e.preventDefault()
   console.log(error)
+  document.getElementById('feedback-sent').innerHTML = "Error: "+error.message
+  document.getElementById('feedback-sent').classList.remove('hidden')
+  setTimeout(() => {
+    document.getElementById('feedback-sent').classList.add('hidden')
+    document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
+  }, 5000);
 })
+
   if (error) console.log(error)
 }
 const {data,error} = await supabase.auth.getUser()
@@ -64,7 +81,9 @@ async function formSubmit(event) {
     /> -->
 
     <section class="bg-gray-50 dark:bg-gradient-to-br from-base-200 to-black">
-      
+      <div id="feedback-sent" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+    <div class="text-sm font-normal">We've sent you a confirmation mail, please check 💖</div>
+</div>
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <!-- <img class="w-8 h-8 mr-2" src="" alt="logo"> -->
