@@ -147,7 +147,12 @@ if(recentdata!=null){
   console.log(recentdata.value);
 }
 window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}
-
+function declareSearch() {
+  document.getElementById('search-toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('search-toast-bottom-left').classList.add('hidden')},800)
+}
+function showAccountSwitcher(params) {
+  document.getElementById('my_modal_2').showModal()
+}
 </script>
 
 <template>
@@ -195,9 +200,9 @@ window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}
 </div>
         <div>
          <div class=" m-3 p-2 justify-center">
-            <div class="text-2xl font-bold text-center w-full m-5 py-2" > How's it going, <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" onclick="document.getElementById('my_modal_2').showModal()" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>?👋</div>
+            <div class="text-2xl font-bold text-center w-full m-5 py-2" > How's it going, <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" @click="showAccountSwitcher" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>?👋</div>
             <div class="w-full self-center object-center text-center content-center justify-center align-middle">
-            <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs" onclick="document.getElementById('search-toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('search-toast-bottom-left').classList.add('hidden')},800)">
+            <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs" @click="declareSearch">
             <input type="text" class="grow" placeholder="Search" />
             <kbd class="kbd kbd-sm text-gray-400">⌘/Ctrl</kbd>
             <kbd class="kbd kbd-sm text-gray-400">K</kbd>

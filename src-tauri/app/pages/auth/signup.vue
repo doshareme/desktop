@@ -22,20 +22,30 @@ const { data,error } = supabase.auth.signUp({
 }).then((res) => {
   console.log(res)
   console.log('User signed up successfully')
+  if(res.error===null){
   if(res.data.user){
     document.getElementById('feedback-sent').classList.remove('hidden')
   setTimeout(() => {
     document.getElementById('feedback-sent').classList.add('hidden')
   }, 5000);
+  }}else{
+    document.getElementById('feedback-sent').innerHTML = "Error: "+res.error.message
+    document.getElementById('feedback-sent').classList.remove('hidden')
+    setTimeout(() => {
+      document.getElementById('feedback-sent').classList.add('hidden')
+      document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
+    }, 5000);
   }
+
 }).catch((error) => {
   console.log(error)
   document.getElementById('feedback-sent').innerHTML = "Error: "+error.message
   document.getElementById('feedback-sent').classList.remove('hidden')
   setTimeout(() => {
     document.getElementById('feedback-sent').classList.add('hidden')
+    document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
+
   }, 5000);
-  document.getElementById('feedback-sent').innerHTML = "We've sent you a confirmation mail, please check 💖"
 })
 
 
@@ -66,8 +76,8 @@ console.log(data)
                 <div>
                       <label for="display_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">So, what should we call you 🤔?</label>
                       <div class="flex flex-row">
-                      <input aria-autocomplete="none" v-model="name" type="text" name="firrst_name" id="display_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First name" autocomplete="off" required="">
-                      <input aria-autocomplete="none" v-model="name" type="text" name="firrst_name" id="display_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" autocomplete="off" required="">
+                      <input aria-autocomplete="none" v-model="firstName" type="text" name="first_name" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First name" autocomplete="off" required="">
+                      <input aria-autocomplete="none" v-model="lastName" type="text" name="last_name" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" autocomplete="off" required="">
                       </div>
                 </div>
                   <div>

@@ -255,6 +255,17 @@ if(data.value!=null){
         function listFiles() {
        
         }
+function uploadpopuphover(params) {
+  document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
+  // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
+}
+function  uploadpopupcancel(params) {
+  document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');
+}
+function onMyDocumentsClick() {
+    // window.location.href = '/my-documents';
+    document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');
+}
 </script>
 
 <template>
@@ -306,10 +317,10 @@ if(data.value!=null){
         <div id="upload-file" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert">
 
           <div id="upload-file" class=" ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert" >
-<button id="hover-btn" class="btn btn-primary text-sm" onmouseenter="document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');">Add Document</button>
+<button id="hover-btn" class="btn btn-primary text-sm" @mouseenter="uploadpopuphover">Add Document</button>
   <input type="file"  id="fileInput"  class="file-input file-input-bordered rounded-md hidden" />
 <button @click="uploadFile" class="btn text-sm hidden" id="upload-btn">Upload</button>
-<button id="cancel-btn" class="btn  text-sm hidden" onclick="document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');">Cancel</button>
+<button id="cancel-btn" class="btn  text-sm hidden" @click="uploadpopupcancel">Cancel</button>
 </div>
 <div id="file-uploaded" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
 File Uploaded
@@ -323,7 +334,7 @@ File Uploaded
     We'll hold on it for you
     </div> -->
 </div>
-<div v-else onclick="document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');">
+<div v-else @click="onMyDocumentsClick">
   <h2 class="text-xl m-4">Your Documents</h2>
   <div id="clip-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
     <div class="text-sm font-normal">Link Copied To Clipboard 📋</div>
@@ -371,7 +382,7 @@ File Uploaded
     </div>
   </div>
 <div id="upload-file" class=" ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert" >
-<button id="hover-btn" class="btn btn-primary text-sm" onmouseenter="document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');">Add Document</button>
+<button id="hover-btn" class="btn btn-primary text-sm" @mouseenter="uploadpopuphover">Add Document</button>
   <input type="file"  id="fileInput"  class="file-input file-input-bordered rounded-md hidden" />
 <button @click="uploadFile" class="btn text-sm hidden" id="upload-btn">Upload</button>
 <button id="cancel-btn" class="btn  text-sm hidden" onclick="document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');">Cancel</button>
