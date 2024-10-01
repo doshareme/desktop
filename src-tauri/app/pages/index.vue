@@ -1,5 +1,9 @@
 <script setup>
 // When using the Tauri API npm package:
+definePageMeta({
+  key: "authentication",
+});
+
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
 import { resolveResource } from "@tauri-apps/api/path";
@@ -125,8 +129,16 @@ supabase.auth.getSession().then((session) => {
     navigateTo('/auth/login')
   }
 })
-const authdata = await supabase.auth.getUser()
+var authdata = await supabase.auth.getUser()
+if(authdata.error.name="AuthSessionMissingError"){
+  authdata= await supabase.auth
+      .signInWithPassword({
+          email: localStorage.getItem('app-email'),
+          password: localStorage.getItem('app-password')
+})
+}
 console.log(authdata)
+
 function sendFeedback() {
   console.log(document.getElementById('feedback').value)
   document.getElementById('my_modal_5').close()
@@ -260,7 +272,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
 </div>
             <div class="collapse collapse-arrow">
   <input type="radio" name="my-accordion-2" />
-  
+
   <!-- <div  class="collapse-title heading text-bold text-2xl py-4 flex flex-row"><img class="mr-2 h-8" src="https://img.icons8.com/led/32/galaxy.png" alt="add-to-favorites"/>Liked Files and Pages</div> -->
   <div class="collapse-content">
     <div class="sm:flex sm:flex-col md:grid md:grid-cols-4 md:gap-4 ">
@@ -319,7 +331,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
       <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
                                   <div class="text-sm font-medium overflow-y-hidden"> {{file}} </div>
                                   </span>
-                               
+
                </div>
             </div>
           </div>
@@ -333,7 +345,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
   </div>
 </div> -->
             <!-- <div class="">Liked Files and Pages<span><a href="/explore" class="link text-sm m-3">View all files</a></span></div>
-            
+
             <div class="heading text-bold text-2xl py-4">Previous Files</div>
             <div class="grid grid-cols-4 gap-4">
                 <div class="skeleton h-32 w-32"></div>
@@ -344,9 +356,9 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
 
 
          </div>
-            
+
          </div>
-         
+
          <!-- Modals -->
 <dialog id="my_modal_2" class="modal modal-bottom sm:modal-middle select-none">
   <div class="modal-box">
@@ -365,7 +377,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
   <div class="modal-box">
     <h3 class="text-lg font-bold">Send Feedback 📪</h3>
     <p class="py-4">Found an Error or a Want to Suggest a Feature?<br/> We're listening 🦻</p>
-    
+
 <textarea id="feedback"
   placeholder="So, what's happening?"
   class="textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
@@ -383,14 +395,14 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
     <!-- <span class="text-sm text-gray-500 dark:text-gray-400">Previously logged in to </span> -->
 <div class="grid grid-flow-col grid-cols-3 space-x-2 m-2">
     <!-- <div class="tooltip tooltip-bottom p-4 m-1  " data-tip="Test User" >
-    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Bordered avatar"> 
+    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Bordered avatar">
 </div>
 <div class="tooltip tooltip-bottom " data-tip="Test User" >
     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Bordered avatar">
 </div>
 <div class="tooltip tooltip-bottom p-4 m-2" data-tip="Test User" >
     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bordered avatar">
-    
+
 </div>
 <div class="tooltip tooltip-bottom fixed pt-16 mt-8" data-tip="Test User" >
     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 hover:cursor-pointer tooltip" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Bordered avatar">
@@ -429,6 +441,6 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
     }
   ]
 });" >i</button> -->
-    
+
     </div>
 </template>
