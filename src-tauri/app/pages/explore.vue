@@ -266,6 +266,14 @@ function onMyDocumentsClick() {
     // window.location.href = '/my-documents';
     document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');
 }
+function previewImage(file, id) {
+    const img = document.getElementById(id);
+    img.src = `https://devtest.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+}
+function resetPreviewImage(event) {
+    const img = event.target;
+    img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
+}
 </script>
 
 <template>
@@ -374,8 +382,22 @@ File Uploaded
         ],
     });
 }">
-      <img width="96" height="96" src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
-      <span class="inline h-8 text-sm">
+      <img class="w-48 max-h-48 overflow-hidden" :key="'grid-jpg-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-if="file.slice(-4)=='.jpg'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img class="w-48 max-h-48 overflow-hidden" :key="'grid-png-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+
+      <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+
+      <span class="inline h-8 text-sm" v-if="file.length<=20">
+        {{ file.slice(0, 12)+""+"\n"+file.slice(13,20) }}
+        </span>
+      <span class="inline h-8 text-sm" v-else>
         {{ file.slice(0, 12)+".."+"\n"+file.slice(13,20)+file.slice(-4) }}
       </span>
       </span>

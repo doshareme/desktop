@@ -1,6 +1,8 @@
 <script setup>
 // When using the Tauri API npm package:
 import { invoke } from "@tauri-apps/api/tauri";
+import { listen } from "@tauri-apps/api/event";
+import { resolveResource } from "@tauri-apps/api/path";
 import { useFetch } from "nuxt/app";
 const { data } = await useFetch("/api/index");
 // navigateTo('/onboard/1')
@@ -13,7 +15,6 @@ const { data } = await useFetch("/api/index");
 //   e.preventDefault();
 // }
 // );
-import { listen } from "@tauri-apps/api/event";
 function download(uri, filename = uri) {
   return fetch(new Request(uri))
     .then(response => response.blob())
@@ -26,51 +27,69 @@ function download(uri, filename = uri) {
       URL.revokeObjectURL(objectURL);
     });
 }
-import { resolveResource } from "@tauri-apps/api/path";
 
 // Listen to the event emitted when the first menu item is clicked
-listen("item1clicked", (event) => {
+listen("item1clickedrecent", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
     const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
         const file = event.payload;
-        const filedata = data.value;
+        const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
+
+        const filedata = data;
         for (let index = 0; index < filedata.length; index++) {
           const element = filedata[index];
           if(element.filename==file){
             var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             download(fileUrl, element.filename);
-            document.getElementById('file-toast-bottom-left').classList.remove('hidden');
-            setTimeout(function(){document.getElementById('file-toast-bottom-left').classList.add('hidden')},800)
+            document.getElementById('download-toast-bottom-left').classList.remove('hidden');
 
             }
         }
+      }).finally(() => {
+        setTimeout(function(){document.getElementById('download-toast-bottom-left').classList.add('hidden')},1000)
+      });
 });
-listen("item2clicked", (event) => {
-    console.log("Item 1 clicked with payload:", event.payload);
+listen("item2clickedrecent", (event) => {
     const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
-        const file = event.payload;
-        const filedata = data.value;
+
+        var fileUrl = "";
+const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
+  const file = event.payload;
+  console.log(data)
+        const filedata = data;
+        console.log("Item 2 clicked with payload:", filedata,recentdata);
+
         for (let index = 0; index < filedata.length; index++) {
           const element = filedata[index];
+
           if(element.filename==file){
-            var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
-            console.log(element.file_id);
-            navigator.clipboard.writeText(fileUrl);
-            document.getElementById('clip-toast-bottom-left').classList.remove('hidden');
-            setTimeout(function(){document.getElementById('clip-toast-bottom-left').classList.add('hidden')},800)
+            fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
 
             }
         }
+            console.log(fileUrl)
+            // console.log(element.file_id);
+            navigator.clipboard.writeText(fileUrl);
+            document.getElementById('share-toast-bottom-left').classList.remove('hidden');
+            setTimeout(function(){document.getElementById('share-toast-bottom-left').classList.add('hidden')},800)
+
 });
-listen("item3clicked", (event) => {
-    console.log("Item 1 clicked with payload:", event.payload);
+
+            
+       
+});
+listen("item3clickedrecent", (event) => {
+
+    console.log("Item 3 clicked with payload:", event.payload);
     const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
         const file = event.payload;
-        const filedata = data.value;
+        const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
+
+        const filedata = data;
         for (let index = 0; index < filedata.length; index++) {
           const element = filedata[index];
           if(element.filename==file){
@@ -88,7 +107,7 @@ listen("item3clicked", (event) => {
 
 
             }
-        }
+        } });
 });
 
 
@@ -153,6 +172,12 @@ function declareSearch() {
 function showAccountSwitcher(params) {
   document.getElementById('my_modal_2').showModal()
 }
+fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) => {
+            return Response.json()
+        }).then((data) => {
+            console.log(data);
+        })
+
 </script>
 
 <template>
@@ -186,6 +211,12 @@ function showAccountSwitcher(params) {
                 </div>
             </nav> -->
         </header>
+        <div id="download-toast-bottom-left" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+    <div class="text-sm font-normal">Download Started 🗃️</div>
+</div>
+        <div id="share-toast-bottom-left" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+    <div class="text-sm font-normal">File Link Copied to Clipboard ✔️</div>
+</div>
         <div id="toast-bottom-left" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
     <div class="text-sm font-normal">Yay! You discovered an Upcoming Feature 🎉</div>
 </div>
@@ -254,12 +285,12 @@ function showAccountSwitcher(params) {
         items: [
             {
                 label: 'Download File',
-                event: 'item1clicked',
+                event: 'item1clickedrecent',
                 payload:file
             },
             {
                 label: 'Share File',
-                event: 'item2clicked',
+                event: 'item2clickedrecent',
                 payload:file
 
             },
@@ -268,14 +299,24 @@ function showAccountSwitcher(params) {
             },
             {
                 label: 'Delete File',
-                event: 'item3clicked',
+                event: 'item3clickedrecent',
                 payload:file
 
             },
         ],
     });
 }">
-                                  <img class="w-32 h-32" src="https://img.icons8.com/3d-fluency/94/document.png" alt="user-folder"/>
+      <img class="w-32 h-32" v-if="file.slice(-4)=='.jpg'" src="https://img.icons8.com/3d-fluency/96/picture--v1.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/96/picture--v1.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+      <img class="w-32 h-32" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+
+      <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
                                   <div class="text-sm font-medium overflow-y-hidden"> {{file}} </div>
                                   </span>
                                
@@ -372,7 +413,7 @@ function showAccountSwitcher(params) {
   </div>
 </dialog>
 
-<button title="Contact Sale"
+<!-- <button title="Contact Sale"
         class="fixed z-90 bottom-10 right-8 bg-white text-blue-600 w-8 h-8 rounded-full drop-shadow-lg flex justify-center items-center  text-4xl hover:bg-blue-700 hover:text-white hover:drop-shadow-2xl tooltip" data-tip="Help Me!" @click="useHead({
   title: 'Home',
   meta: [
@@ -387,7 +428,7 @@ function showAccountSwitcher(params) {
       id:'zsiqscript'
     }
   ]
-});" >i</button>
+});" >i</button> -->
     
     </div>
 </template>
