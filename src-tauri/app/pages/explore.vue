@@ -39,8 +39,8 @@ listen("item1clicked", (event) => {
             var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             download(fileUrl, element.filename);
-            document.getElementById('file-toast-bottom-left').classList.remove('hidden');
-            setTimeout(function(){document.getElementById('file-toast-bottom-left').classList.add('hidden')},800)
+            document.getElementById('file-toast-bottom-right').classList.remove('hidden');
+            setTimeout(function(){document.getElementById('file-toast-bottom-right').classList.add('hidden')},800)
 
             }
         }
@@ -57,8 +57,8 @@ listen("item2clicked", (event) => {
             var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             navigator.clipboard.writeText(fileUrl);
-            document.getElementById('clip-toast-bottom-left').classList.remove('hidden');
-            setTimeout(function(){document.getElementById('clip-toast-bottom-left').classList.add('hidden')},800)
+            document.getElementById('clip-toast-bottom-right').classList.remove('hidden');
+            setTimeout(function(){document.getElementById('clip-toast-bottom-right').classList.add('hidden')},800)
 
             }
         }
@@ -344,10 +344,10 @@ File Uploaded
 </div>
 <div v-else @click="onMyDocumentsClick">
   <h2 class="text-xl m-4">Your Documents</h2>
-  <div id="clip-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+  <div id="clip-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 right-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
     <div class="text-sm font-normal">Link Copied To Clipboard 📋</div>
 </div>
-<div id="file-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full -z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
+<div id="file-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full -z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 right-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
     <div class="text-sm font-normal">Download Started 📗</div>
 </div>
   <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
