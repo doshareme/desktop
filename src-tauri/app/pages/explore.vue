@@ -1,6 +1,9 @@
 <style>
 @import url("https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap");
 .suse-400 {
+    font-family: "SUSE", sans-serif;
+    font-weight: 400;
     font-family: "SUSE", sans-serif;
     font-weight: 400;
 }
@@ -18,7 +21,26 @@ if ((authdata.error.name = "AuthSessionMissingError")) {
     });
 }
 console.log(authdata);
+const supabase = useSupabaseClient();
+var authdata = await supabase.auth.getUser();
+if ((authdata.error.name = "AuthSessionMissingError")) {
+    authdata = await supabase.auth.signInWithPassword({
+        email: localStorage.getItem("app-email"),
+        password: localStorage.getItem("app-password"),
+    });
+}
+console.log(authdata);
 function download(uri, filename = uri) {
+    return fetch(new Request(uri))
+        .then((response) => response.blob())
+        .then((blob) => {
+            let objectURL = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            link.href = objectURL;
+            link.download = filename.substr(filename.lastIndexOf("/") + 1); // no path
+            link.click();
+            URL.revokeObjectURL(objectURL);
+        });
     return fetch(new Request(uri))
         .then((response) => response.blob())
         .then((blob) => {
@@ -41,9 +63,26 @@ listen("item1clicked", (event) => {
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
+    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const userId = authdata.data.user.id; // Sample user ID
+    const file = event.payload;
+    const filedata = data.value;
+    for (let index = 0; index < filedata.length; index++) {
+        const element = filedata[index];
+        if (element.filename == file) {
             var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             download(fileUrl, element.filename);
+            document
+                .getElementById("file-toast-bottom-right")
+                .classList.remove("hidden");
+            setTimeout(function () {
+                document
+                    .getElementById("file-toast-bottom-right")
+                    .classList.add("hidden");
+            }, 800);
+        }
+    }
             document
                 .getElementById("file-toast-bottom-left")
                 .classList.remove("hidden");
@@ -57,6 +96,13 @@ listen("item1clicked", (event) => {
 });
 listen("item2clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
+    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const userId = authdata.data.user.id; // Sample user ID
+    const file = event.payload;
+    const filedata = data.value;
+    for (let index = 0; index < filedata.length; index++) {
+        const element = filedata[index];
+        if (element.filename == file) {
     const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
@@ -87,6 +133,13 @@ listen("item3clicked", (event) => {
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
+    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const userId = authdata.data.user.id; // Sample user ID
+    const file = event.payload;
+    const filedata = data.value;
+    for (let index = 0; index < filedata.length; index++) {
+        const element = filedata[index];
+        if (element.filename == file) {
             var fileUrl = `${API_BASE_URL}/delete/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             $fetch(fileUrl, {
@@ -94,14 +147,24 @@ listen("item3clicked", (event) => {
             }).then((response) => {
                 console.log(response);
                 window.location.reload();
+                method: "DELETE",
+            }).then((response) => {
+                console.log(response);
+                window.location.reload();
             });
 
+            // window.location.reload();
             // window.location.reload();
             // download(fileUrl, element.filename);
         }
     }
+        }
+    }
 });
 
+window.addEventListener("contextmenu", async (e) => {
+    e.preventDefault();
+});
 window.addEventListener("contextmenu", async (e) => {
     e.preventDefault();
 });
@@ -160,7 +223,12 @@ function clickHandler() {
         console.log("Key pressed:", event.key);
     });
 }
+    document.addEventListener("keydown", function (event) {
+        console.log("Key pressed:", event.key);
+    });
+}
 
+function dragstartHandler(ev) {
 function dragstartHandler(ev) {
     // Add the target element's id to the data transfer object
     // ev.dataTransfer.setData("text/plain", ev.target.id);
@@ -168,14 +236,20 @@ function dragstartHandler(ev) {
     ev.dataTransfer.setData("jpeg/image", img.src);
 }
 function dragoverHandler(ev) {
+}
+function dragoverHandler(ev) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "move";
+}
+function dropHandler(ev) {
 }
 function dropHandler(ev) {
     ev.preventDefault();
     // Get the id of the target and add the moved element to the target's DOM
     const data = ev.dataTransfer.getData("text/plain");
     ev.target.appendChild(document.getElementById(data));
+}
+window.addEventListener("DOMContentLoaded", () => {
 }
 window.addEventListener("DOMContentLoaded", () => {
     // Get the element by id
@@ -186,7 +260,20 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
 const userId = authdata.data.user.id; // Sample user ID
+});
+const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+const userId = authdata.data.user.id; // Sample user ID
 var myfiles = null;
+const { data, error } = await useFetch(
+    `${API_BASE_URL}/search?q=&user_id=${userId}`,
+);
+if (data.value != null) {
+    myfiles = [];
+    console.log(data.value);
+    for (let i = 0; i < data.value.length; i++) {
+        myfiles.push(data.value[i].filename);
+        console.log(myfiles);
+    }
 const { data, error } = await useFetch(
     `${API_BASE_URL}/search?q=&user_id=${userId}`,
 );
@@ -203,7 +290,15 @@ function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const folderId = ""; //document.getElementById('folderId').value;
     const file = fileInput.files[0];
+function uploadFile() {
+    const fileInput = document.getElementById("fileInput");
+    const folderId = ""; //document.getElementById('folderId').value;
+    const file = fileInput.files[0];
 
+    if (!file) {
+        alert("Please select a file to upload.");
+        return;
+    }
     if (!file) {
         alert("Please select a file to upload.");
         return;
@@ -215,7 +310,23 @@ function uploadFile() {
     //     formData.append('folder_id', folderId);
     // }
     formData.set("user_id", userId);
+    const formData = new FormData();
+    formData.set("file", file);
+    // if (folderId) {
+    //     formData.append('folder_id', folderId);
+    // }
+    formData.set("user_id", userId);
 
+    // axios.post(`${API_BASE_URL}/upload`, formData, {
+    //     headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //     },
+    //     params: {
+    //         user_id: userId
+    //     }
+    // })
+    // .then(response => {
+    //     // document.getElementById('uploadResult').innerHTML = JSON.stringify(response.data);
     // axios.post(`${API_BASE_URL}/upload`, formData, {
     //     headers: {
     //         'Content-Type': 'multipart/form-data',
@@ -264,13 +375,60 @@ function searchFiles() {
         });
 }
 function listFiles() {}
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    // });
+    console.log(formData.getAll("file"));
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", `${API_BASE_URL}/upload?user_id=` + userId, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("File uploaded successfully:", xhr.responseText);
+            document.getElementById("fileInput").value = "";
+            document.getElementById("file-uploaded").classList.remove("hidden");
+            setTimeout(() => {
+                document
+                    .getElementById("file-uploaded")
+                    .classList.add("hidden");
+            }, 3000);
+            window.location.reload();
+        } else {
+            console.error("Error:", xhr.responseText);
+        }
+    };
+    xhr.send(formData);
+}
+function searchFiles() {
+    const query = document.getElementById("searchQuery").value;
+    axios
+        .get(`${API_BASE_URL}/search?q=${query}&user_id=${userId}`)
+        .then((response) => {
+            // document.getElementById('searchResults').innerHTML = JSON.stringify(response.data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+function listFiles() {}
 function uploadpopuphover(params) {
     document.getElementById("fileInput").classList.remove("hidden");
     document.getElementById("upload-btn").classList.remove("hidden");
     document.getElementById("hover-btn").classList.add("hidden");
     document.getElementById("cancel-btn").classList.remove("hidden");
     // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
+    document.getElementById("fileInput").classList.remove("hidden");
+    document.getElementById("upload-btn").classList.remove("hidden");
+    document.getElementById("hover-btn").classList.add("hidden");
+    document.getElementById("cancel-btn").classList.remove("hidden");
+    // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
 }
+function uploadpopupcancel(params) {
+    document.getElementById("fileInput").classList.add("hidden");
+    document.getElementById("upload-btn").classList.add("hidden");
+    document.getElementById("hover-btn").classList.remove("hidden");
+    document.getElementById("cancel-btn").classList.add("hidden");
 function uploadpopupcancel(params) {
     document.getElementById("fileInput").classList.add("hidden");
     document.getElementById("upload-btn").classList.add("hidden");
@@ -284,9 +442,45 @@ function onMyDocumentsClick() {
     document.getElementById("hover-btn").classList.remove("hidden");
     document.getElementById("cancel-btn").classList.add("hidden");
 }
+function previewImage(file, id) {
+    const img = document.getElementById(id);
+    img.src = `https://devtest.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+}
+function resetPreviewImage(event) {
+    const img = event.target;
+    img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
+    document.getElementById("fileInput").classList.add("hidden");
+    document.getElementById("upload-btn").classList.add("hidden");
+    document.getElementById("hover-btn").classList.remove("hidden");
+    document.getElementById("cancel-btn").classList.add("hidden");
+}
 </script>
 
 <template>
+    <div class="select-none">
+        <div class="breadcrumbs text-sm m-4">
+            <ul>
+                <li>
+                    <a href="/">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            class="h-4 w-4 stroke-current m-2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                            ></path>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <span class="inline-flex items-center gap-2">
+                        <!-- <svg
     <div class="select-none">
         <div class="breadcrumbs text-sm m-4">
             <ul>
@@ -321,6 +515,16 @@ function onMyDocumentsClick() {
             stroke-width="2"
             d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
         </svg> -->
+                        My Documents
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div v-if="myfiles[0] == null">
+            <div
+                class="suse-400 text-center content-center justify-items-center"
+            >
+                <!-- If Empty -->
                         My Documents
                     </span>
                 </li>
@@ -387,7 +591,63 @@ function onMyDocumentsClick() {
                 </div>
             </div>
             <!-- If Existing Files -->
+                <h2 class="text-2xl m-2">Let's fill up this folder</h2>
+                <div class="flex flex-grow flex-col">
+                    <img
+                        class="content-center self-center justify-center items-center object-center"
+                        src="https://pub-a1d8320a13a348a8abae7ee559fd2c49.r2.dev/ruby-box-filled-with-stuff.png"
+                        alt=""
+                    />
+                </div>
+                <div
+                    id="upload-file"
+                    class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+                    role="alert"
+                >
+                    <div
+                        id="upload-file"
+                        class="ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+                        role="alert"
+                    >
+                        <button
+                            id="hover-btn"
+                            class="btn btn-primary text-sm"
+                            @mouseenter="uploadpopuphover"
+                        >
+                            Add Document
+                        </button>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            class="file-input file-input-bordered rounded-md hidden"
+                        />
+                        <button
+                            @click="uploadFile"
+                            class="btn text-sm hidden"
+                            id="upload-btn"
+                        >
+                            Upload
+                        </button>
+                        <button
+                            id="cancel-btn"
+                            class="btn text-sm hidden"
+                            @click="uploadpopupcancel"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                    <div
+                        id="file-uploaded"
+                        class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
+                        role="alert"
+                    >
+                        File Uploaded
+                    </div>
+                </div>
+            </div>
+            <!-- If Existing Files -->
 
+            <!-- <h2 class="text-2xl">Drag and Drop a folder anywhere</h2>
             <!-- <h2 class="text-2xl">Drag and Drop a folder anywhere</h2>
     <div class="flex flex-grow flex-col">
     <img class="content-center self-center justify-center items-center object-center" src="https://go.doshare.me/7e6f/company-black-and-white-woman-walking-with-shopping-bags.png" alt="">
@@ -547,6 +807,7 @@ function onMyDocumentsClick() {
       </a>
     </li>
 
+
   </ul>
 </div>
 <div class="flex flex-row">
@@ -587,5 +848,6 @@ function onMyDocumentsClick() {
 <p id="target" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
   Drop Zone
 </p> -->
+    </div>
     </div>
 </template>

@@ -57,10 +57,10 @@ console.log(data)
 </script>
 <template>
         <!-- <h1>Login</h1> -->
-        <section class="bg-gray-50 dark:bg-gradient-to-br from-base-200 to-black">
+        <section class="">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-          <!-- <img class="w-8 h-8 mr-2" src="" alt="logo"> -->
+    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+          <img class="w-8 h-8 mr-2" src="/logo.png" alt="logo">
           Personal Cloud
       </a>
       <div id="feedback-sent" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
@@ -98,7 +98,7 @@ console.log(data)
                           </div> -->
                       </div>
                   </div>
-                  <button @click="signUp" class="w-full text-white bg-black hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>                  <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                  <button @click="signUp" class="w-full text-white bg-[#6938EF] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>                  <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                       <div v-if="data.user" class="link"><a href="/">Go to home</a></div>
                        <div> Already have an account? <a href="/auth/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a></div>
                   </p>
