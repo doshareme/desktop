@@ -45,6 +45,7 @@ listen("item1clicked", (event) => {
             console.log(element.file_id);
             download(fileUrl, element.filename);
             document
+
                 .getElementById("file-toast-bottom-right")
                 .classList.remove("hidden");
             setTimeout(function () {
@@ -67,11 +68,16 @@ listen("item2clicked", (event) => {
             var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             navigator.clipboard.writeText(fileUrl);
-            document.getElementById('clip-toast-bottom-left').classList.remove('hidden');
-            setTimeout(function(){document.getElementById('clip-toast-bottom-left').classList.add('hidden')},800)
-
-            }
+            document
+                .getElementById("clip-toast-bottom-left")
+                .classList.remove("hidden");
+            setTimeout(function () {
+                document
+                    .getElementById("clip-toast-bottom-left")
+                    .classList.add("hidden");
+            }, 800);
         }
+    }
 });
 listen("item3clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
@@ -286,6 +292,7 @@ function previewImage(file, id) {
 function resetPreviewImage(event) {
     const img = event.target;
     img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
+
 }
 </script>
 
@@ -396,65 +403,126 @@ function resetPreviewImage(event) {
     <img class="content-center self-center justify-center items-center object-center" src="https://go.doshare.me/7e6f/company-black-and-white-woman-walking-with-shopping-bags.png" alt="">
     We'll hold on it for you
     </div> -->
-</div>
-<div v-else @click="onMyDocumentsClick">
-  <h2 class="text-xl m-4">Your Documents</h2>
-  <div id="clip-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
-    <div class="text-sm font-normal">Link Copied To Clipboard 📋</div>
-</div>
-<div id="file-toast-bottom-right" class=" ease-in-out fixed flex items-center w-full -z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
-    <div class="text-sm font-normal">Download Started 📗</div>
-</div>
-  <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-    <div v-for="file in myfiles" class="w-24 h-36 m-2 ml-4 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md" :data-tip="file" >
-      <span v-on:contextmenu="async (e) => {
-    e.preventDefault();
-    const iconUrl = await resolveResource('assets/16x16.png');
+        </div>
+        <div v-else @click="onMyDocumentsClick">
+            <h2 class="text-xl m-4">Your Documents</h2>
+            <div
+                id="clip-toast-bottom-right"
+                class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
+                role="alert"
+            >
+                <div class="text-sm font-normal">
+                    Link Copied To Clipboard 📋
+                </div>
+            </div>
+            <div
+                id="file-toast-bottom-right"
+                class="ease-in-out fixed flex items-center w-full -z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
+                role="alert"
+            >
+                <div class="text-sm font-normal">Download Started 📗</div>
+            </div>
+            <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+                <div
+                    v-for="file in myfiles"
+                    class="w-24 h-36 m-2 ml-4 hover:bg-blue-200 active:bg-blue-200 after:bg-blue-200 tooltip cursor-pointer rounded-md"
+                    :data-tip="file"
+                >
+                    <span
+                        v-on:contextmenu="
+                            async (e) => {
+                                e.preventDefault();
+                                const iconUrl =
+                                    await resolveResource('assets/16x16.png');
 
-    // Show the context menu
-    invoke('plugin:context_menu|show_context_menu', {
-        items: [
-            {
-                label: 'Download File',
-                event: 'item1clicked',
-                payload:file
-            },
-            {
-                label: 'Share File',
-                event: 'item2clicked',
-                payload:file
-
-            },
-            {
-                is_separator: true,
-            },
-            {
-                label: 'Delete File',
-                event: 'item3clicked',
-                payload:file
-
-            },
-        ],
-    });
-}">
-      <img width="96" height="96" src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
-      <span class="inline h-8 text-sm">
-        {{ file.slice(0, 12)+".."+"\n"+file.slice(13,20)+file.slice(-4) }}
-      </span>
-      </span>
-    </div>
-  </div>
-<div id="upload-file" class=" ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert" >
-<button id="hover-btn" class="btn btn-primary text-sm" @mouseenter="uploadpopuphover">Add Document</button>
-  <input type="file"  id="fileInput"  class="file-input file-input-bordered rounded-md hidden" />
-<button @click="uploadFile" class="btn text-sm hidden" id="upload-btn">Upload</button>
-<button id="cancel-btn" class="btn  text-sm hidden" onclick="document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');">Cancel</button>
-</div>
-<div id="file-uploaded" class=" ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden" role="alert">
-File Uploaded
-</div>
-</div>
-<!-- <div class="breadcrumbs text-sm m-4 select-none">
+                                // Show the context menu
+                                invoke(
+                                    'plugin:context_menu|show_context_menu',
+                                    {
+                                        items: [
+                                            {
+                                                label: 'Download File',
+                                                event: 'item1clicked',
+                                                payload: file,
+                                            },
+                                            {
+                                                label: 'Share File',
+                                                event: 'item2clicked',
+                                                payload: file,
+                                            },
+                                            {
+                                                is_separator: true,
+                                            },
+                                            {
+                                                label: 'Delete File',
+                                                event: 'item3clicked',
+                                                payload: file,
+                                            },
+                                        ],
+                                    },
+                                );
+                            }
+                        "
+                    >
+                        <img
+                            width="96"
+                            height="96"
+                            src="https://img.icons8.com/3d-fluency/94/document.png"
+                            alt="product-documents"
+                        />
+                        <span class="inline h-8 text-sm">
+                            {{
+                                file.slice(0, 12) +
+                                ".." +
+                                "\n" +
+                                file.slice(13, 20) +
+                                file.slice(-4)
+                            }}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div
+                id="upload-file"
+                class="ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+                role="alert"
+            >
+                <button
+                    id="hover-btn"
+                    class="btn btn-primary text-sm"
+                    @mouseenter="uploadpopuphover"
+                >
+                    Add Document
+                </button>
+                <input
+                    type="file"
+                    id="fileInput"
+                    class="file-input file-input-bordered rounded-md hidden"
+                />
+                <button
+                    @click="uploadFile"
+                    class="btn text-sm hidden"
+                    id="upload-btn"
+                >
+                    Upload
+                </button>
+                <button
+                    id="cancel-btn"
+                    class="btn text-sm hidden"
+                    onclick="document.getElementById('fileInput').classList.add('hidden');document.getElementById('upload-btn').classList.add('hidden');document.getElementById('hover-btn').classList.remove('hidden');document.getElementById('cancel-btn').classList.add('hidden');"
+                >
+                    Cancel
+                </button>
+            </div>
+            <div
+                id="file-uploaded"
+                class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
+                role="alert"
+            >
+                File Uploaded
+            </div>
+        </div>
+        <!-- <div class="breadcrumbs text-sm m-4 select-none">
   <ul>
     <li>
       <a href="/">
