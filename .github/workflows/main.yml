@@ -58,6 +58,7 @@ jobs:
         run: |
           curl -fsSL https://bun.sh/install | bash   
           source /Users/runner/.bashrc 
+          echo 'export PATH="$HOME/.bun/bin:$PATH"' >> $GITHUB_ENV
           bun install 
           
           
