@@ -56,7 +56,8 @@ jobs:
         
       - name: install frontend dependencies
         run: |
-          curl -fsSL https://bun.sh/install | bash        
+          curl -fsSL https://bun.sh/install | bash   
+          source /Users/runner/.bashrc 
           bun install 
           
           
