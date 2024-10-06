@@ -45,11 +45,12 @@ listen("item1clicked", (event) => {
             console.log(element.file_id);
             download(fileUrl, element.filename);
             document
-                .getElementById("file-toast-bottom-left")
+
+                .getElementById("file-toast-bottom-right")
                 .classList.remove("hidden");
             setTimeout(function () {
                 document
-                    .getElementById("file-toast-bottom-left")
+                    .getElementById("file-toast-bottom-right")
                     .classList.add("hidden");
             }, 800);
         }
@@ -283,6 +284,15 @@ function onMyDocumentsClick() {
     document.getElementById("upload-btn").classList.add("hidden");
     document.getElementById("hover-btn").classList.remove("hidden");
     document.getElementById("cancel-btn").classList.add("hidden");
+}
+function previewImage(file, id) {
+    const img = document.getElementById(id);
+    img.src = `https://devtest.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+}
+function resetPreviewImage(event) {
+    const img = event.target;
+    img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
+
 }
 </script>
 
