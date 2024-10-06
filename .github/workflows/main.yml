@@ -27,6 +27,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
 
       - name: setup node
         uses: actions/setup-node@v4
@@ -56,9 +57,6 @@ jobs:
         
       - name: install frontend dependencies
         run: |
-          curl -fsSL https://bun.sh/install | bash   
-          source /Users/runner/.bashrc 
-          echo 'export PATH="$HOME/.bun/bin:$PATH"' >> /Users/runner/.bashrc
           bun install 
           
           
