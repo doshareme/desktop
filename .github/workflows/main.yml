@@ -43,13 +43,23 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf nodejs
+          sudo apt-get install -y libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
         # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
         # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
+      - name: Install Nuxt Dependency
+        working-directory: ./src-tauri/app
+        run: npm install
 
+      - name: Install Tauri Dependency
+        working-directory: ./src-tauri
+        run: cargo build
+        
       - name: install frontend dependencies
-        run: npm install # change this to npm, pnpm or bun depending on which one you use.
-
+        run: |
+          curl -fsSL https://bun.sh/install | bash        
+          bun install 
+          
+          
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
