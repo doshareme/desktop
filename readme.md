@@ -1,7 +1,7 @@
 # DoShare Personal Cloud for Desktop
 
-This repository contains the desktop clients for DoShare Personal Cloud, supporting MacOS, Linux, and Windows operating systems. These clients provide a seamless interface for users to interact with their personal cloud storage directly from their desktop environments.
-
+This repository contains source code for desktop clients for DoShare Personal Cloud, support MacOS, Linux, and Windows operating systems is underway.
+<!---
 ToDo:
 1. **Overview**
    - Provide a high-level description of what the software does
@@ -48,3 +48,4 @@ ToDo:
     - Describe planned future enhancements or features
 
 Remember to tailor this explanation to the specific codebase you're working with, as different projects may require focus on different aspects.
+--->
