@@ -1,7 +1,14 @@
 <script setup>
-function nextSlide2() {
-    console.log('Next Slide')
-    navigateTo('/')
+const supabase = useSupabaseClient()
+const user= await supabase.auth.getUser()
+async function nextSlide2() {
+    console.log('Onboarding Finished')
+    const PAY_API_URL = 'https://pay.doshare.me'
+    const {data, error} = await useFetch(PAY_API_URL+"/new?id="+user.data.user.id)
+    console.log(data.value)
+    
+    // console.log('Next Slide')
+    // navigateTo('/')
     
 }
 function lastSlide2() {
@@ -15,7 +22,7 @@ function lastSlide2() {
 
 <div class="text-center m-4 h-full overflow-hidden self-center items-center">
 <img class="cursor-pointer h-80 m-auto items-center self-center margin-auto" src="https://cdn.recorder.betaco.tech/Slide%204_3%20-%203%20(1).png" alt="">
-<h1 class=" text-2xl m-4">Organize, files the way you want</h1>
+<h1 class=" text-2xl m-4">Organize, your files the way you want</h1>
 <button @click="lastSlide2" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400">
 <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
 Back

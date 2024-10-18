@@ -12,35 +12,19 @@
 import { invoke } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { resolveResource } from "@tauri-apps/api/path";
-const supabase = useSupabaseClient();
-var authdata = await supabase.auth.getUser();
-if ((authdata.error.name = "AuthSessionMissingError")) {
-    authdata = await supabase.auth.signInWithPassword({
-        email: localStorage.getItem("app-email"),
-        password: localStorage.getItem("app-password"),
-    });
-}
+
 console.log(authdata);
 const supabase = useSupabaseClient();
 var authdata = await supabase.auth.getUser();
-if ((authdata.error.name = "AuthSessionMissingError")) {
-    authdata = await supabase.auth.signInWithPassword({
-        email: localStorage.getItem("app-email"),
-        password: localStorage.getItem("app-password"),
-    });
-}
+//if ((authdata.error.name = "AuthSessionMissingError")) {
+//    authdata = await supabase.auth.signInWithPassword({
+//        email: localStorage.getItem("app-email"),
+//        password: localStorage.getItem("app-password"),
+//    });
+//}
 console.log(authdata);
 function download(uri, filename = uri) {
-    return fetch(new Request(uri))
-        .then((response) => response.blob())
-        .then((blob) => {
-            let objectURL = URL.createObjectURL(blob);
-            let link = document.createElement("a");
-            link.href = objectURL;
-            link.download = filename.substr(filename.lastIndexOf("/") + 1); // no path
-            link.click();
-            URL.revokeObjectURL(objectURL);
-        });
+
     return fetch(new Request(uri))
         .then((response) => response.blob())
         .then((blob) => {
@@ -56,14 +40,14 @@ function download(uri, filename = uri) {
 // Listen to the event emitted when the first menu item is clicked
 listen("item1clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
@@ -96,17 +80,11 @@ listen("item1clicked", (event) => {
 });
 listen("item2clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
-    for (let index = 0; index < filedata.length; index++) {
-        const element = filedata[index];
-        if (element.filename == file) {
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
-    const userId = authdata.data.user.id; // Sample user ID
-    const file = event.payload;
-    const filedata = data.value;
+
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
@@ -126,14 +104,14 @@ listen("item2clicked", (event) => {
 });
 listen("item3clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
@@ -143,10 +121,6 @@ listen("item3clicked", (event) => {
             var fileUrl = `${API_BASE_URL}/delete/${element.file_id}?user_id=${userId}`;
             console.log(element.file_id);
             $fetch(fileUrl, {
-                method: "DELETE",
-            }).then((response) => {
-                console.log(response);
-                window.location.reload();
                 method: "DELETE",
             }).then((response) => {
                 console.log(response);
@@ -165,9 +139,7 @@ listen("item3clicked", (event) => {
 window.addEventListener("contextmenu", async (e) => {
     e.preventDefault();
 });
-window.addEventListener("contextmenu", async (e) => {
-    e.preventDefault();
-});
+
 
 // window.addEventListener("contextmenu", async (e) => {
 //     e.preventDefault();
@@ -223,34 +195,26 @@ function clickHandler() {
         console.log("Key pressed:", event.key);
     });
 }
-    document.addEventListener("keydown", function (event) {
-        console.log("Key pressed:", event.key);
-    });
-}
 
-function dragstartHandler(ev) {
 function dragstartHandler(ev) {
     // Add the target element's id to the data transfer object
     // ev.dataTransfer.setData("text/plain", ev.target.id);
     ev.dataTransfer.setDragImage(img, 10, 10);
     ev.dataTransfer.setData("jpeg/image", img.src);
 }
-function dragoverHandler(ev) {
-}
+
 function dragoverHandler(ev) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "move";
 }
-function dropHandler(ev) {
-}
+
 function dropHandler(ev) {
     ev.preventDefault();
     // Get the id of the target and add the moved element to the target's DOM
     const data = ev.dataTransfer.getData("text/plain");
     ev.target.appendChild(document.getElementById(data));
 }
-window.addEventListener("DOMContentLoaded", () => {
-}
+
 window.addEventListener("DOMContentLoaded", () => {
     // Get the element by id
     const element = document.getElementById("p1");
@@ -258,10 +222,8 @@ window.addEventListener("DOMContentLoaded", () => {
     element.addEventListener("dragstart", dragstartHandler);
     document.getElementById("d").addEventListener("click", clickHandler);
 });
-const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
-const userId = authdata.data.user.id; // Sample user ID
-});
-const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+
+const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
 const userId = authdata.data.user.id; // Sample user ID
 var myfiles = null;
 const { data, error } = await useFetch(
@@ -274,22 +236,9 @@ if (data.value != null) {
         myfiles.push(data.value[i].filename);
         console.log(myfiles);
     }
-const { data, error } = await useFetch(
-    `${API_BASE_URL}/search?q=&user_id=${userId}`,
-);
-if (data.value != null) {
-    myfiles = [];
-    console.log(data.value);
-    for (let i = 0; i < data.value.length; i++) {
-        myfiles.push(data.value[i].filename);
-        console.log(myfiles);
-    }
 }
 
-function uploadFile() {
-    const fileInput = document.getElementById("fileInput");
-    const folderId = ""; //document.getElementById('folderId').value;
-    const file = fileInput.files[0];
+
 function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const folderId = ""; //document.getElementById('folderId').value;
@@ -304,12 +253,7 @@ function uploadFile() {
         return;
     }
 
-    const formData = new FormData();
-    formData.set("file", file);
-    // if (folderId) {
-    //     formData.append('folder_id', folderId);
-    // }
-    formData.set("user_id", userId);
+
     const formData = new FormData();
     formData.set("file", file);
     // if (folderId) {
@@ -343,12 +287,33 @@ function uploadFile() {
     //     console.error('Error:', error);
     // });
     console.log(formData.getAll("file"));
-    const xhr = new XMLHttpRequest();
+    // const xhr = new XMLHttpRequest();
 
-    xhr.open("POST", `${API_BASE_URL}/upload?user_id=` + userId, true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            console.log("File uploaded successfully:", xhr.responseText);
+    // xhr.open("POST", `${API_BASE_URL}/upload?user_id=` + userId, true);
+    // xhr.onload = function () {
+    //     if (xhr.status === 200) {
+    //         console.log("File uploaded successfully:", xhr.responseText);
+    //         document.getElementById("fileInput").value = "";
+    //         document.getElementById("file-uploaded").classList.remove("hidden");
+    //         setTimeout(() => {
+    //             document
+    //                 .getElementById("file-uploaded")
+    //                 .classList.add("hidden");
+    //         }, 3000);
+    //         window.location.reload();
+    //     } else {
+    //         console.error("Error:", xhr.responseText);
+    //     }
+    // };
+    // xhr.send(formData);
+    fetch(`${API_BASE_URL}/upload?user_id=${userId}`, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log("Success:", result);
             document.getElementById("fileInput").value = "";
             document.getElementById("file-uploaded").classList.remove("hidden");
             setTimeout(() => {
@@ -357,11 +322,10 @@ function uploadFile() {
                     .classList.add("hidden");
             }, 3000);
             window.location.reload();
-        } else {
-            console.error("Error:", xhr.responseText);
-        }
-    };
-    xhr.send(formData);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
 }
 function searchFiles() {
     const query = document.getElementById("searchQuery").value;
@@ -374,7 +338,7 @@ function searchFiles() {
             console.error("Error:", error);
         });
 }
-function listFiles() {}
+function listFiles() {
     // })
     // .catch(error => {
     //     console.error('Error:', error);
@@ -400,35 +364,14 @@ function listFiles() {}
     };
     xhr.send(formData);
 }
-function searchFiles() {
-    const query = document.getElementById("searchQuery").value;
-    axios
-        .get(`${API_BASE_URL}/search?q=${query}&user_id=${userId}`)
-        .then((response) => {
-            // document.getElementById('searchResults').innerHTML = JSON.stringify(response.data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-}
-function listFiles() {}
 function uploadpopuphover(params) {
     document.getElementById("fileInput").classList.remove("hidden");
     document.getElementById("upload-btn").classList.remove("hidden");
     document.getElementById("hover-btn").classList.add("hidden");
     document.getElementById("cancel-btn").classList.remove("hidden");
     // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
-    document.getElementById("fileInput").classList.remove("hidden");
-    document.getElementById("upload-btn").classList.remove("hidden");
-    document.getElementById("hover-btn").classList.add("hidden");
-    document.getElementById("cancel-btn").classList.remove("hidden");
-    // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
 }
-function uploadpopupcancel(params) {
-    document.getElementById("fileInput").classList.add("hidden");
-    document.getElementById("upload-btn").classList.add("hidden");
-    document.getElementById("hover-btn").classList.remove("hidden");
-    document.getElementById("cancel-btn").classList.add("hidden");
+
 function uploadpopupcancel(params) {
     document.getElementById("fileInput").classList.add("hidden");
     document.getElementById("upload-btn").classList.add("hidden");
@@ -444,7 +387,7 @@ function onMyDocumentsClick() {
 }
 function previewImage(file, id) {
     const img = document.getElementById(id);
-    img.src = `https://devtest.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+    img.src = `https://mycloud.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
 }
 function resetPreviewImage(event) {
     const img = event.target;
@@ -454,6 +397,7 @@ function resetPreviewImage(event) {
     document.getElementById("hover-btn").classList.remove("hidden");
     document.getElementById("cancel-btn").classList.add("hidden");
 }
+
 </script>
 
 <template>
@@ -526,9 +470,6 @@ function resetPreviewImage(event) {
             >
                 <!-- If Empty -->
                         My Documents
-                    </span>
-                </li>
-            </ul>
         </div>
         <div v-if="myfiles[0] == null">
             <div
@@ -591,59 +532,15 @@ function resetPreviewImage(event) {
                 </div>
             </div>
             <!-- If Existing Files -->
-                <h2 class="text-2xl m-2">Let's fill up this folder</h2>
+                <!-- <h2 class="text-2xl m-2">Let's fill up this folder</h2>
                 <div class="flex flex-grow flex-col">
                     <img
                         class="content-center self-center justify-center items-center object-center"
                         src="https://pub-a1d8320a13a348a8abae7ee559fd2c49.r2.dev/ruby-box-filled-with-stuff.png"
                         alt=""
                     />
-                </div>
-                <div
-                    id="upload-file"
-                    class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
-                    role="alert"
-                >
-                    <div
-                        id="upload-file"
-                        class="ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
-                        role="alert"
-                    >
-                        <button
-                            id="hover-btn"
-                            class="btn btn-primary text-sm"
-                            @mouseenter="uploadpopuphover"
-                        >
-                            Add Document
-                        </button>
-                        <input
-                            type="file"
-                            id="fileInput"
-                            class="file-input file-input-bordered rounded-md hidden"
-                        />
-                        <button
-                            @click="uploadFile"
-                            class="btn text-sm hidden"
-                            id="upload-btn"
-                        >
-                            Upload
-                        </button>
-                        <button
-                            id="cancel-btn"
-                            class="btn text-sm hidden"
-                            @click="uploadpopupcancel"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                    <div
-                        id="file-uploaded"
-                        class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
-                        role="alert"
-                    >
-                        File Uploaded
-                    </div>
-                </div>
+                </div> -->
+         
             </div>
             <!-- If Existing Files -->
 
@@ -696,7 +593,7 @@ function resetPreviewImage(event) {
                                                 payload: file,
                                             },
                                             {
-                                                label: 'Share File',
+                                                label: 'Copy File URL',
                                                 event: 'item2clicked',
                                                 payload: file,
                                             },
@@ -714,21 +611,25 @@ function resetPreviewImage(event) {
                             }
                         "
                     >
-                        <img
-                            width="96"
-                            height="96"
-                            src="https://img.icons8.com/3d-fluency/94/document.png"
-                            alt="product-documents"
-                        />
-                        <span class="inline h-8 text-sm">
-                            {{
-                                file.slice(0, 12) +
-                                ".." +
-                                "\n" +
-                                file.slice(13, 20) +
-                                file.slice(-4)
-                            }}
-                        </span>
+                    <img class="w-48 max-h-48 overflow-hidden" :key="'grid-jpg-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-if="file.slice(-4)=='.jpg'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img class="w-48 max-h-48 overflow-hidden" :key="'grid-png-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+
+      <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+
+
+      <span class="inline h-8 text-sm" v-if="file.length<=20">
+        {{ file.slice(0, 12)+""+file.slice(12,20) }}
+        </span>
+      <span class="inline h-8 text-sm" v-else>
+        {{ file.slice(0, 12)+"\n"+file.slice(12,20)+".."+file.slice(-4) }}
+      </span>
                     </span>
                 </div>
             </div>
@@ -848,6 +749,5 @@ function resetPreviewImage(event) {
 <p id="target" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
   Drop Zone
 </p> -->
-    </div>
     </div>
 </template>
