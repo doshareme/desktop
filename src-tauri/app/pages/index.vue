@@ -19,9 +19,7 @@ const { data } = await useFetch("/api/index");
 //   e.preventDefault();
 // }
 // );
-
-const PAY_API_BASE_URL = 'https://pay.doshare.me'; // Adjust this to your backend URL
-
+const PAY_API_BASE_URL = 'https://pay.doshare.me'; // Adjust this to your payment backend URL
 function download(uri, filename = uri) {
   return fetch(new Request(uri))
     .then(response => response.blob())
@@ -59,7 +57,7 @@ listen("item1clickedrecent", (event) => {
       });
 });
 listen("item2clickedrecent", (event) => {
-    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your backend URL
+    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your API backend URL
         const userId = authdata.data.user.id; // Sample user ID
 
         var fileUrl = "";
@@ -91,7 +89,8 @@ const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((
 listen("item3clickedrecent", (event) => {
 
     console.log("Item 3 clicked with payload:", event.payload);
-    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your backend URL
+    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your API backend URL
+
         const userId = authdata.data.user.id; // Sample user ID
         const file = event.payload;
         const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
@@ -192,6 +191,7 @@ function declareSearch(event) {
 function showAccountSwitcher(params) {
   document.getElementById('my_modal_2').showModal()
 }
+
 /*fetch("https://pay.doshare.me/user?id="+authdata.data.user.id).then((Response) => {
             return Response.json()
         }).then((data) => {
@@ -286,6 +286,7 @@ function resetPreviewImage(event) {
 function upcomingtoast() {
   document.getElementById('toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('toast-bottom-left').classList.add('hidden')},800)
   }
+
 </script>
 
 <template>
@@ -604,6 +605,7 @@ function upcomingtoast() {
     <button>close</button>
   </form>
 </dialog>
+
 <!-- <button title="Contact Sale"
         class="fixed z-90 bottom-10 right-8 bg-white text-blue-600 w-8 h-8 rounded-full drop-shadow-lg flex justify-center items-center  text-4xl hover:bg-blue-700 hover:text-white hover:drop-shadow-2xl tooltip" data-tip="Help Me!" @click="useHead({
   title: 'Home',
@@ -620,6 +622,5 @@ function upcomingtoast() {
     }
   ]
 });" >i</button> -->
-
     </div>
 </template>

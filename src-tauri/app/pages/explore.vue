@@ -72,7 +72,7 @@ listen("item1clicked", (event) => {
                 .classList.remove("hidden");
             setTimeout(function () {
                 document
-                    .getElementById("file-toast-bottom-left")
+                    .getElementById("file-toast-bottom-right")
                     .classList.add("hidden");
             }, 800);
         }
@@ -388,6 +388,7 @@ function onMyDocumentsClick() {
 function previewImage(file, id) {
     const img = document.getElementById(id);
     img.src = `https://mycloud.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+
 }
 function resetPreviewImage(event) {
     const img = event.target;

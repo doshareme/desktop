@@ -107,6 +107,7 @@ async function choosePlan(e){
       <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <img src="https://cloud.doshare.me/favicon.ico" alt="Choose Your Plan" class="mx-auto" />
           <h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Join DoShare</h2>
+
           <p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">We focus on affordability, security and privacy without compromising features.</p>
           🔽
       </div>
@@ -253,6 +254,7 @@ async function choosePlan(e){
                       <span>Everything in Standard and more</span>
                   </li>
                   <li class="flex text-bold font-bold items-center space-x-3">
+
                       <!-- Icon -->
                       <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                       <span>5 TB (5000 GB) Cloud Storage</span>
@@ -266,6 +268,7 @@ async function choosePlan(e){
 
               </ul>
               <a @click="choosePlan" id="enterprise" class="text-white bg-purple-800 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900 cursor-pointer hover:bg-purple-950">Choose Plan</a>
+
           </div>
           <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
               <h3 class="mb-4 text-2xl font-semibold">Mega</h3>
@@ -282,6 +285,7 @@ async function choosePlan(e){
                       <span>Everything in Standard and more</span>
                   </li>
                   <li class="flex text-bold font-bold items-center space-x-3">
+
                       <!-- Icon -->
                       <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                       <span>10 TB (10,000 GB) Cloud Storage</span>
