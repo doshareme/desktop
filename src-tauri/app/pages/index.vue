@@ -3,7 +3,7 @@
 definePageMeta({
   key: "authentication",
 });
-
+import filelistview from "~/components/filelistview.vue";
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
 import { resolveResource } from "@tauri-apps/api/path";
@@ -19,6 +19,7 @@ const { data } = await useFetch("/api/index");
 //   e.preventDefault();
 // }
 // );
+const PAY_API_BASE_URL = 'https://pay.doshare.me'; // Adjust this to your payment backend URL
 function download(uri, filename = uri) {
   return fetch(new Request(uri))
     .then(response => response.blob())
@@ -35,7 +36,7 @@ function download(uri, filename = uri) {
 // Listen to the event emitted when the first menu item is clicked
 listen("item1clickedrecent", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
         const file = event.payload;
         const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
@@ -56,7 +57,7 @@ listen("item1clickedrecent", (event) => {
       });
 });
 listen("item2clickedrecent", (event) => {
-    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your API backend URL
         const userId = authdata.data.user.id; // Sample user ID
 
         var fileUrl = "";
@@ -88,7 +89,8 @@ const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((
 listen("item3clickedrecent", (event) => {
 
     console.log("Item 3 clicked with payload:", event.payload);
-    const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+    const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your API backend URL
+
         const userId = authdata.data.user.id; // Sample user ID
         const file = event.payload;
         const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data)=>{
@@ -130,13 +132,14 @@ supabase.auth.getSession().then((session) => {
   }
 })
 var authdata = await supabase.auth.getUser()
-if(authdata.error.name="AuthSessionMissingError"){
-  authdata= await supabase.auth
-      .signInWithPassword({
-          email: localStorage.getItem('app-email'),
-          password: localStorage.getItem('app-password')
-})
-}
+
+//if(authdata.error.name="AuthSessionMissingError"){
+//  authdata= await supabase.auth
+//      .signInWithPassword({
+//          email: localStorage.getItem('app-email'),
+///          password: localStorage.getItem('app-password')
+//})
+//}
 console.log(authdata)
 
 function sendFeedback() {
@@ -156,7 +159,7 @@ function sendFeedback() {
 }
 var recentFiles = {}
 var recentFileList = ref([])
-const API_BASE_URL = 'https://devtest.doshare.me'; // Adjust this to your backend URL
+const API_BASE_URL = 'https://mycloud.doshare.me'; // Adjust this to your backend URL
         const userId = authdata.data.user.id; // Sample user ID
 const {recentdata,recerror}= useFetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((data) => {
   console.log(data.data.value)
@@ -178,17 +181,111 @@ if(recentdata!=null){
   console.log(recentdata.value);
 }
 window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}
-function declareSearch() {
-  document.getElementById('search-toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('search-toast-bottom-left').classList.add('hidden')},800)
+function declareSearch(event) {
+  document.getElementById('search-tab').classList.add('hidden')
+  
+  // document.getElementById('search-toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('search-toast-bottom-left').classList.add('hidden')},800)
+  searchwindow.showModal()
+
 }
 function showAccountSwitcher(params) {
   document.getElementById('my_modal_2').showModal()
 }
-fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) => {
+
+/*fetch("https://pay.doshare.me/user?id="+authdata.data.user.id).then((Response) => {
             return Response.json()
         }).then((data) => {
-            console.log(data);
-        })
+            console.log(data.detail.toString());
+
+
+            if(data.status!="active"){
+                navigateTo('/newflow/choose')
+            }else if (data.status=="active"){
+              console.log("User is active")
+            }else if(data.detail.toString()=="User not found"){
+                navigateTo('/onboard/1')
+            } 
+
+        }).catch((error) => {
+            console.log(error);
+            navigateTo('/onboard/1')
+        });*/
+function accountmouseenter() {
+  document.getElementById('accountswitch').classList.remove('hidden')
+}
+function accountmouseleave() {
+  document.getElementById('accountswitch').classList.add('hidden')
+}
+function accemailmouseenter() {
+  document.getElementById('accemail').classList.remove('hidden')
+}
+function accemailmouseleave() {
+  document.getElementById('accemail').classList.add('hidden')
+}
+function resurfaceSearch() {
+  document.getElementById('search-tab').classList.remove('hidden')
+  searchwindow.close()
+}
+// Todo: Define State on Search to enable and Disable the search bar from same keybinding
+document.onkeydown = function(e) {
+  if (e.key === "Escape") {
+    resurfaceSearch()
+  }
+  if (e.key==="Enter"){
+    resurfaceSearch()
+  }
+  if (e.key==="K" && e.ctrlKey || e.key==="k" && e.ctrlKey){
+    declareSearch()
+  }
+  if (e.key==="F" && e.ctrlKey || e.key==="f" && e.ctrlKey){
+    e.preventDefault()
+    declareSearch()
+  }
+}
+document.onkeyup = function(e) {
+  if (e.key === "Escape") {
+    resurfaceSearch()
+  }
+  if (e.key==="Enter"){
+    resurfaceSearch()
+  }
+  if (e.key==="K" && e.ctrlKey || e.key==="k" && e.ctrlKey){
+    declareSearch()
+  }
+  if (e.key==="F" && e.ctrlKey || e.key==="f" && e.ctrlKey){
+    e.preventDefault()
+    declareSearch()
+  }
+}
+var myfiles = ref([])
+var myfilesid = ref([])
+async function searchFiles(e) {
+  console.log(document.getElementById('search-bar').value)
+  const {data,error}= $fetch(`${API_BASE_URL}/search?q=${document.getElementById('search-bar').value}&user_id=${userId}`).then((data)=>{
+    console.log(data)
+    myfiles.value = []
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      myfiles.value.push(element.filename)
+      myfilesid.value.push(element.file_id)
+    }
+  });
+}
+function previewImage(file, id) {
+    const img = document.getElementById(id);
+    img.src = `https://mycloud.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+}
+function resetPreviewImage(event) {
+    const img = event.target;
+    img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
+    document.getElementById("fileInput").classList.add("hidden");
+    document.getElementById("upload-btn").classList.add("hidden");
+    document.getElementById("hover-btn").classList.remove("hidden");
+    document.getElementById("cancel-btn").classList.add("hidden");
+}
+function upcomingtoast() {
+  document.getElementById('toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('toast-bottom-left').classList.add('hidden')},800)
+  }
 
 </script>
 
@@ -243,8 +340,8 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
 </div>
         <div>
          <div class=" m-3 p-2 justify-center">
-            <div class="text-2xl font-bold text-center w-full m-5 py-2" > How's it going, <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" onmouseenter="document.getElementById('accountswitch').classList.remove('hidden')" onmouseleave="document.getElementById('accountswitch').classList.add('hidden')" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" @click="showAccountSwitcher" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>?👋</div>
-            <div class="w-full self-center object-center text-center content-center justify-center align-middle">
+            <div class="text-2xl font-bold text-center w-full m-5 py-2" > How's it going, <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" @mouseenter="accountmouseenter" @mouseleave="accountmouseleave" > {{authdata.data.user.user_metadata.first_name}} <button ref="accountswitch" id="accountswitch" @click="showAccountSwitcher" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>?👋</div>
+            <div id="search-tab" class="w-full self-center object-center text-center content-center justify-center align-middle">
             <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs" @click="declareSearch">
             <input type="text" class="grow" placeholder="Search" />
             <kbd class="kbd kbd-sm text-gray-400">⌘/Ctrl</kbd>
@@ -256,10 +353,10 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
             <div class="heading text-bold text-2xl py-4 flex flex-row"> Quick Actions <img class="ml-2 h-6" src="https://img.icons8.com/led/32/aquarius.png" alt="popular-topic"/></div>
 
             <div class="grid grid-cols-4 gap-4">
-                <button onclick="document.getElementById('toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('toast-bottom-left').classList.add('hidden')},800)"  onload="document.getElementById('postcard').classList.remove('bg-gradient-to-tl')" id="postcard" class="hover:animate-gradient-x max-w-48 button bg-gradient-to-tl text-white from-sky-800 from-35% via-gray-500 to-yellow-800 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=22861&format=png&color=ffffff" alt="postcard"/><span class="text-sm m-0.5">Postcard</span></span></button>
-                <button onclick="document.getElementById('toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('toast-bottom-left').classList.add('hidden')},800)" class="max-w-48 button bg-gradient-to-tl from-sky-100 from-35% via-pink-200 to-purple-700 cursor-pointer text-gray-800 font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy" ><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/material-rounded/96/multiple-devices.png" alt="multiple-devices"/><span class="text-sm m-0.5">Sync Files</span></span></button>
-                <button onclick="document.getElementById('toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('toast-bottom-left').classList.add('hidden')},800)"  class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-400 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y text-black"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
-                <button onclick="my_modal_5.showModal()"  class="max-w-48 button bg-gradient-to-tl text-black from-blue-300 from-35% via-rose-200 to-rose-100 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=50&id=MFzs48bdCZzQ&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Send Feedback</span></span></button>
+                <button @click="upcomingtoast"  onload="document.getElementById('postcard').classList.remove('bg-gradient-to-tl')" id="postcard" class="hover:animate-gradient-x max-w-48 button bg-gradient-to-tl text-white from-sky-800 from-35% via-gray-500 to-yellow-800 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=22861&format=png&color=ffffff" alt="postcard"/><span class="text-sm m-0.5">Postcard</span></span></button>
+                <button @click="upcomingtoast" class="max-w-48 button bg-gradient-to-tl from-sky-100 from-35% via-pink-200 to-purple-700 cursor-pointer text-gray-800 font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy" ><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/material-rounded/96/multiple-devices.png" alt="multiple-devices"/><span class="text-sm m-0.5">Sync Files</span></span></button>
+                <button @click="upcomingtoast"  class="max-w-48 button bg-gradient-to-l from-neutral-600 from-35% via-orange-400 to-neutral-300 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-x hover:animate-gradient-y text-black"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=100&id=6705&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Generate Space</span></span></button>
+                <button @click="my_modal_5.showModal()"  class="max-w-48 button bg-gradient-to-tl text-black from-blue-300 from-35% via-rose-200 to-rose-100 cursor-pointer font-mono font-bold p-2 rounded-md  border-gray-700 border-1 border-solid animate-gradient-xy"><span class="inline-flex items-center py-0.5"><img class="w-4 m-1 text-white" width="24" height="24" src="https://img.icons8.com/?size=50&id=MFzs48bdCZzQ&format=png&color=" alt="postcard"/><span class="text-sm m-0.5">Send Feedback</span></span></button>
             </div>
             <div class="heading text-bold text-2xl py-4 flex flex-row"> Wizard Actions <img class="ml-2 h-6" src="https://img.icons8.com/led/32/aquarius.png" alt="popular-topic"/></div>
 
@@ -301,7 +398,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
                 payload:file
             },
             {
-                label: 'Share File',
+                label: 'Copy File URL',
                 event: 'item2clickedrecent',
                 payload:file
 
@@ -365,7 +462,7 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
     <h3 class="text-lg font-bold">My Account</h3>
     <p class="py-4">
 
-<div class="flex items-center gap-4 w-full cursor-pointer rounded-md hover:bg-gray-200 p-4" onmouseenter="document.getElementById('accemail').classList.remove('hidden')" onmouseleave="document.getElementById('accemail').classList+=' hidden'">
+<div class="flex items-center gap-4 w-full cursor-pointer rounded-md hover:bg-gray-200 p-4" @mouseenter="accemailmouseenter" @mouseleave="accemailmouseleave">
     <img class="w-10 h-10 rounded-full" src="https://img.icons8.com/3d-fluency/94/person-male--v5.png" alt="">
     <div class="font-medium dark:text-white" >
         <div > {{authdata.data.user.email.split("@",1)[0]}} </div>
@@ -424,6 +521,90 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
     </div>
   </div>
 </dialog>
+<!-- Open the modal using ID.showModal() method -->
+<dialog id="searchwindow" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    
+    <div class="text-2xl font-bold text-center m-5 py-2" > What's on your mind , <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" @mouseenter="accountmouseenter" @mouseleave="accountmouseleave" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" @click="showAccountSwitcher" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>? 🔍</div>
+
+    <p class="py-4 bg-base-200 rounded-box">
+      <div class="w-full self-center object-center text-center content-center justify-center align-middle">
+            <label class="input input-bordered inline-flex items-center w-full content-center max-w-xs" @input="searchFiles">
+            <input id="search-bar" type="text" class="grow" placeholder="Search" />
+            <kbd class="kbd kbd-sm text-gray-400">⌘/Ctrl</kbd>
+            <kbd class="kbd kbd-sm text-gray-400">K</kbd>
+            </label>
+            <br/>
+            <!-- <sub><a href="#" class="text-blue-500">I remember vaguely →_→</a></sub> -->
+            </div>
+            <ul class="menu w-full">
+  <li  v-for="file in myfiles">
+    <a  v-on:contextmenu="async (e) => {
+    e.preventDefault();
+    const iconUrl = await resolveResource('assets/16x16.png');
+
+    // Show the context menu
+    invoke('plugin:context_menu|show_context_menu', {
+        items: [
+            {
+                label: 'Download File',
+                event: 'item1clickedrecent',
+                payload:file
+            },
+            {
+                label: 'Copy File URL',
+                event: 'item2clickedrecent',
+                payload:file
+
+            },
+            {
+                is_separator: true,
+            },
+            {
+                label: 'Delete File',
+                event: 'item3clickedrecent',
+                payload:file
+
+            },
+        ],
+    });
+}">
+      <img class="w-5 max-h-5 overflow-hidden"  v-if="file.slice(-4)=='.jpg'"  src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+      <img class="w-5 max-h-5 overflow-hidden" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+
+      <img class="w-5 max-h-5 overflow-hidden" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+
+
+      <span class="inline h-8 text-sm" v-if="file.length<=20">
+        {{ file.slice(0, 12)+""+"\n"+file.slice(13,20) }}
+        </span>
+      <span class="inline h-8 text-sm" v-else>
+        {{ file.slice(0, 12)+".."+"\n"+file.slice(13,20)+file.slice(-4) }}
+      </span>
+                    
+    </a>
+  </li>
+
+</ul>
+  </p>
+    <div class="modal-action">
+      <form method="dialog" class="">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn text-red-600 font-extralight" @click="resurfaceSearch">Dismiss</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop backdrop-blur-xl bg-white/30 " @click="resurfaceSearch">
+    <button>close</button>
+  </form>
+</dialog>
 
 <!-- <button title="Contact Sale"
         class="fixed z-90 bottom-10 right-8 bg-white text-blue-600 w-8 h-8 rounded-full drop-shadow-lg flex justify-center items-center  text-4xl hover:bg-blue-700 hover:text-white hover:drop-shadow-2xl tooltip" data-tip="Help Me!" @click="useHead({
@@ -441,7 +622,5 @@ fetch("https://pay.doshare.me/new?id="+authdata.data.user.id).then((Response) =>
     }
   ]
 });" >i</button> -->
-
-
     </div>
 </template>

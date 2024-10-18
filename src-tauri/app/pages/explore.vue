@@ -1,6 +1,9 @@
 <style>
 @import url("https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap");
 .suse-400 {
+    font-family: "SUSE", sans-serif;
+    font-weight: 400;
     font-family: "SUSE", sans-serif;
     font-weight: 400;
 }
@@ -9,16 +12,19 @@
 import { invoke } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { resolveResource } from "@tauri-apps/api/path";
+
+console.log(authdata);
 const supabase = useSupabaseClient();
 var authdata = await supabase.auth.getUser();
-if ((authdata.error.name = "AuthSessionMissingError")) {
-    authdata = await supabase.auth.signInWithPassword({
-        email: localStorage.getItem("app-email"),
-        password: localStorage.getItem("app-password"),
-    });
-}
+//if ((authdata.error.name = "AuthSessionMissingError")) {
+//    authdata = await supabase.auth.signInWithPassword({
+//        email: localStorage.getItem("app-email"),
+//        password: localStorage.getItem("app-password"),
+//    });
+//}
 console.log(authdata);
 function download(uri, filename = uri) {
+
     return fetch(new Request(uri))
         .then((response) => response.blob())
         .then((blob) => {
@@ -34,7 +40,14 @@ function download(uri, filename = uri) {
 // Listen to the event emitted when the first menu item is clicked
 listen("item1clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
+    const userId = authdata.data.user.id; // Sample user ID
+    const file = event.payload;
+    const filedata = data.value;
+    for (let index = 0; index < filedata.length; index++) {
+        const element = filedata[index];
+        if (element.filename == file) {
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
@@ -45,8 +58,17 @@ listen("item1clicked", (event) => {
             console.log(element.file_id);
             download(fileUrl, element.filename);
             document
-
                 .getElementById("file-toast-bottom-right")
+                .classList.remove("hidden");
+            setTimeout(function () {
+                document
+                    .getElementById("file-toast-bottom-right")
+                    .classList.add("hidden");
+            }, 800);
+        }
+    }
+            document
+                .getElementById("file-toast-bottom-left")
                 .classList.remove("hidden");
             setTimeout(function () {
                 document
@@ -58,10 +80,11 @@ listen("item1clicked", (event) => {
 });
 listen("item2clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
+
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
@@ -81,7 +104,14 @@ listen("item2clicked", (event) => {
 });
 listen("item3clicked", (event) => {
     console.log("Item 1 clicked with payload:", event.payload);
-    const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
+    const userId = authdata.data.user.id; // Sample user ID
+    const file = event.payload;
+    const filedata = data.value;
+    for (let index = 0; index < filedata.length; index++) {
+        const element = filedata[index];
+        if (element.filename == file) {
+    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
     const userId = authdata.data.user.id; // Sample user ID
     const file = event.payload;
     const filedata = data.value;
@@ -98,7 +128,10 @@ listen("item3clicked", (event) => {
             });
 
             // window.location.reload();
+            // window.location.reload();
             // download(fileUrl, element.filename);
+        }
+    }
         }
     }
 });
@@ -106,6 +139,7 @@ listen("item3clicked", (event) => {
 window.addEventListener("contextmenu", async (e) => {
     e.preventDefault();
 });
+
 
 // window.addEventListener("contextmenu", async (e) => {
 //     e.preventDefault();
@@ -168,16 +202,19 @@ function dragstartHandler(ev) {
     ev.dataTransfer.setDragImage(img, 10, 10);
     ev.dataTransfer.setData("jpeg/image", img.src);
 }
+
 function dragoverHandler(ev) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "move";
 }
+
 function dropHandler(ev) {
     ev.preventDefault();
     // Get the id of the target and add the moved element to the target's DOM
     const data = ev.dataTransfer.getData("text/plain");
     ev.target.appendChild(document.getElementById(data));
 }
+
 window.addEventListener("DOMContentLoaded", () => {
     // Get the element by id
     const element = document.getElementById("p1");
@@ -185,7 +222,8 @@ window.addEventListener("DOMContentLoaded", () => {
     element.addEventListener("dragstart", dragstartHandler);
     document.getElementById("d").addEventListener("click", clickHandler);
 });
-const API_BASE_URL = "https://devtest.doshare.me"; // Adjust this to your backend URL
+
+const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
 const userId = authdata.data.user.id; // Sample user ID
 var myfiles = null;
 const { data, error } = await useFetch(
@@ -200,6 +238,7 @@ if (data.value != null) {
     }
 }
 
+
 function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const folderId = ""; //document.getElementById('folderId').value;
@@ -209,6 +248,11 @@ function uploadFile() {
         alert("Please select a file to upload.");
         return;
     }
+    if (!file) {
+        alert("Please select a file to upload.");
+        return;
+    }
+
 
     const formData = new FormData();
     formData.set("file", file);
@@ -227,7 +271,74 @@ function uploadFile() {
     // })
     // .then(response => {
     //     // document.getElementById('uploadResult').innerHTML = JSON.stringify(response.data);
+    // axios.post(`${API_BASE_URL}/upload`, formData, {
+    //     headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //     },
+    //     params: {
+    //         user_id: userId
+    //     }
+    // })
+    // .then(response => {
+    //     // document.getElementById('uploadResult').innerHTML = JSON.stringify(response.data);
 
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    // });
+    console.log(formData.getAll("file"));
+    // const xhr = new XMLHttpRequest();
+
+    // xhr.open("POST", `${API_BASE_URL}/upload?user_id=` + userId, true);
+    // xhr.onload = function () {
+    //     if (xhr.status === 200) {
+    //         console.log("File uploaded successfully:", xhr.responseText);
+    //         document.getElementById("fileInput").value = "";
+    //         document.getElementById("file-uploaded").classList.remove("hidden");
+    //         setTimeout(() => {
+    //             document
+    //                 .getElementById("file-uploaded")
+    //                 .classList.add("hidden");
+    //         }, 3000);
+    //         window.location.reload();
+    //     } else {
+    //         console.error("Error:", xhr.responseText);
+    //     }
+    // };
+    // xhr.send(formData);
+    fetch(`${API_BASE_URL}/upload?user_id=${userId}`, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log("Success:", result);
+            document.getElementById("fileInput").value = "";
+            document.getElementById("file-uploaded").classList.remove("hidden");
+            setTimeout(() => {
+                document
+                    .getElementById("file-uploaded")
+                    .classList.add("hidden");
+            }, 3000);
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+function searchFiles() {
+    const query = document.getElementById("searchQuery").value;
+    axios
+        .get(`${API_BASE_URL}/search?q=${query}&user_id=${userId}`)
+        .then((response) => {
+            // document.getElementById('searchResults').innerHTML = JSON.stringify(response.data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+function listFiles() {
     // })
     // .catch(error => {
     //     console.error('Error:', error);
@@ -253,18 +364,6 @@ function uploadFile() {
     };
     xhr.send(formData);
 }
-function searchFiles() {
-    const query = document.getElementById("searchQuery").value;
-    axios
-        .get(`${API_BASE_URL}/search?q=${query}&user_id=${userId}`)
-        .then((response) => {
-            // document.getElementById('searchResults').innerHTML = JSON.stringify(response.data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-}
-function listFiles() {}
 function uploadpopuphover(params) {
     document.getElementById("fileInput").classList.remove("hidden");
     document.getElementById("upload-btn").classList.remove("hidden");
@@ -272,6 +371,7 @@ function uploadpopuphover(params) {
     document.getElementById("cancel-btn").classList.remove("hidden");
     // document.getElementById('fileInput').classList.remove('hidden');document.getElementById('upload-btn').classList.remove('hidden');document.getElementById('hover-btn').classList.add('hidden');document.getElementById('cancel-btn').classList.remove('hidden');
 }
+
 function uploadpopupcancel(params) {
     document.getElementById("fileInput").classList.add("hidden");
     document.getElementById("upload-btn").classList.add("hidden");
@@ -287,16 +387,45 @@ function onMyDocumentsClick() {
 }
 function previewImage(file, id) {
     const img = document.getElementById(id);
-    img.src = `https://devtest.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+    img.src = `https://mycloud.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
+
 }
 function resetPreviewImage(event) {
     const img = event.target;
     img.src = "https://img.icons8.com/3d-fluency/94/picture--v1.png";
-
+    document.getElementById("fileInput").classList.add("hidden");
+    document.getElementById("upload-btn").classList.add("hidden");
+    document.getElementById("hover-btn").classList.remove("hidden");
+    document.getElementById("cancel-btn").classList.add("hidden");
 }
+
 </script>
 
 <template>
+    <div class="select-none">
+        <div class="breadcrumbs text-sm m-4">
+            <ul>
+                <li>
+                    <a href="/">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            class="h-4 w-4 stroke-current m-2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                            ></path>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <span class="inline-flex items-center gap-2">
+                        <!-- <svg
     <div class="select-none">
         <div class="breadcrumbs text-sm m-4">
             <ul>
@@ -335,6 +464,13 @@ function resetPreviewImage(event) {
                     </span>
                 </li>
             </ul>
+        </div>
+        <div v-if="myfiles[0] == null">
+            <div
+                class="suse-400 text-center content-center justify-items-center"
+            >
+                <!-- If Empty -->
+                        My Documents
         </div>
         <div v-if="myfiles[0] == null">
             <div
@@ -397,7 +533,19 @@ function resetPreviewImage(event) {
                 </div>
             </div>
             <!-- If Existing Files -->
+                <!-- <h2 class="text-2xl m-2">Let's fill up this folder</h2>
+                <div class="flex flex-grow flex-col">
+                    <img
+                        class="content-center self-center justify-center items-center object-center"
+                        src="https://pub-a1d8320a13a348a8abae7ee559fd2c49.r2.dev/ruby-box-filled-with-stuff.png"
+                        alt=""
+                    />
+                </div> -->
+         
+            </div>
+            <!-- If Existing Files -->
 
+            <!-- <h2 class="text-2xl">Drag and Drop a folder anywhere</h2>
             <!-- <h2 class="text-2xl">Drag and Drop a folder anywhere</h2>
     <div class="flex flex-grow flex-col">
     <img class="content-center self-center justify-center items-center object-center" src="https://go.doshare.me/7e6f/company-black-and-white-woman-walking-with-shopping-bags.png" alt="">
@@ -446,7 +594,7 @@ function resetPreviewImage(event) {
                                                 payload: file,
                                             },
                                             {
-                                                label: 'Share File',
+                                                label: 'Copy File URL',
                                                 event: 'item2clicked',
                                                 payload: file,
                                             },
@@ -464,21 +612,25 @@ function resetPreviewImage(event) {
                             }
                         "
                     >
-                        <img
-                            width="96"
-                            height="96"
-                            src="https://img.icons8.com/3d-fluency/94/document.png"
-                            alt="product-documents"
-                        />
-                        <span class="inline h-8 text-sm">
-                            {{
-                                file.slice(0, 12) +
-                                ".." +
-                                "\n" +
-                                file.slice(13, 20) +
-                                file.slice(-4)
-                            }}
-                        </span>
+                    <img class="w-48 max-h-48 overflow-hidden" :key="'grid-jpg-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-if="file.slice(-4)=='.jpg'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img class="w-48 max-h-48 overflow-hidden" :key="'grid-png-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+      <img width="96" height="96" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+
+      <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+
+
+      <span class="inline h-8 text-sm" v-if="file.length<=20">
+        {{ file.slice(0, 12)+""+file.slice(12,20) }}
+        </span>
+      <span class="inline h-8 text-sm" v-else>
+        {{ file.slice(0, 12)+"\n"+file.slice(12,20)+".."+file.slice(-4) }}
+      </span>
                     </span>
                 </div>
             </div>
@@ -556,6 +708,7 @@ function resetPreviewImage(event) {
        My Documents
       </a>
     </li>
+
 
   </ul>
 </div>
