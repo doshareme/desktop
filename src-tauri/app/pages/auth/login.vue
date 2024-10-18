@@ -44,8 +44,9 @@ function signInWithOtp(e) {
             console.log("User signed in successfully");
             if (data.error === null) {
                 // document.getElementById('feedback-sent').classList.remove('hidden')
-                // localStorage.setItem("app-email", email.value);
-                // localStorage.setItem("app-password", password.value);
+                // MacOS,Linux only Code
+                localStorage.setItem("app-email", email.value);
+                localStorage.setItem("app-password", password.value);
                 navigateTo("/");
             } else {
                 document.getElementById("feedback-sent").innerHTML =
@@ -80,13 +81,14 @@ function signInWithOtp(e) {
     if (error) console.log(error);
 }
 var { data, error } = await supabase.auth.getUser();
-// if ((data == null) & localStorage.getItem("app-email")) {
-//     var { data, error } = await supabase.auth.signInWithPassword({
-//         email: localStorage.getItem("app-email"),
-//         password: localStorage.getItem("app-password"),
-//     });
-//     console.log(data);
-// }
+// MacOS,Linux only Code
+if (localStorage.getItem("app-email")) {
+    var { data, error } = await supabase.auth.signInWithPassword({
+        email: localStorage.getItem("app-email"),
+        password: localStorage.getItem("app-password"),
+    });
+    console.log(data);
+}
 console.log(data);
 async function formSubmit(event) {
     const { data, error } = await supabase.auth.getUser();

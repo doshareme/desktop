@@ -16,15 +16,15 @@ import { resolveResource } from "@tauri-apps/api/path";
 console.log(authdata);
 const supabase = useSupabaseClient();
 var authdata = await supabase.auth.getUser();
-//if ((authdata.error.name = "AuthSessionMissingError")) {
-//    authdata = await supabase.auth.signInWithPassword({
-//        email: localStorage.getItem("app-email"),
-//        password: localStorage.getItem("app-password"),
-//    });
-//}
+// MacOS,Linux only Code
+if ((authdata.error.name = "AuthSessionMissingError")) {
+    authdata = await supabase.auth.signInWithPassword({
+        email: localStorage.getItem("app-email"),
+        password: localStorage.getItem("app-password"),
+    });
+}
 console.log(authdata);
 function download(uri, filename = uri) {
-
     return fetch(new Request(uri))
         .then((response) => response.blob())
         .then((blob) => {
@@ -47,26 +47,26 @@ listen("item1clicked", (event) => {
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
-    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
-    const userId = authdata.data.user.id; // Sample user ID
-    const file = event.payload;
-    const filedata = data.value;
-    for (let index = 0; index < filedata.length; index++) {
-        const element = filedata[index];
-        if (element.filename == file) {
-            var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
-            console.log(element.file_id);
-            download(fileUrl, element.filename);
-            document
-                .getElementById("file-toast-bottom-right")
-                .classList.remove("hidden");
-            setTimeout(function () {
-                document
-                    .getElementById("file-toast-bottom-right")
-                    .classList.add("hidden");
-            }, 800);
-        }
-    }
+            const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
+            const userId = authdata.data.user.id; // Sample user ID
+            const file = event.payload;
+            const filedata = data.value;
+            for (let index = 0; index < filedata.length; index++) {
+                const element = filedata[index];
+                if (element.filename == file) {
+                    var fileUrl = `${API_BASE_URL}/download/${element.file_id}?user_id=${userId}`;
+                    console.log(element.file_id);
+                    download(fileUrl, element.filename);
+                    document
+                        .getElementById("file-toast-bottom-right")
+                        .classList.remove("hidden");
+                    setTimeout(function () {
+                        document
+                            .getElementById("file-toast-bottom-right")
+                            .classList.add("hidden");
+                    }, 800);
+                }
+            }
             document
                 .getElementById("file-toast-bottom-left")
                 .classList.remove("hidden");
@@ -111,27 +111,27 @@ listen("item3clicked", (event) => {
     for (let index = 0; index < filedata.length; index++) {
         const element = filedata[index];
         if (element.filename == file) {
-    const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
-    const userId = authdata.data.user.id; // Sample user ID
-    const file = event.payload;
-    const filedata = data.value;
-    for (let index = 0; index < filedata.length; index++) {
-        const element = filedata[index];
-        if (element.filename == file) {
-            var fileUrl = `${API_BASE_URL}/delete/${element.file_id}?user_id=${userId}`;
-            console.log(element.file_id);
-            $fetch(fileUrl, {
-                method: "DELETE",
-            }).then((response) => {
-                console.log(response);
-                window.location.reload();
-            });
+            const API_BASE_URL = "https://mycloud.doshare.me"; // Adjust this to your backend URL
+            const userId = authdata.data.user.id; // Sample user ID
+            const file = event.payload;
+            const filedata = data.value;
+            for (let index = 0; index < filedata.length; index++) {
+                const element = filedata[index];
+                if (element.filename == file) {
+                    var fileUrl = `${API_BASE_URL}/delete/${element.file_id}?user_id=${userId}`;
+                    console.log(element.file_id);
+                    $fetch(fileUrl, {
+                        method: "DELETE",
+                    }).then((response) => {
+                        console.log(response);
+                        window.location.reload();
+                    });
 
-            // window.location.reload();
-            // window.location.reload();
-            // download(fileUrl, element.filename);
-        }
-    }
+                    // window.location.reload();
+                    // window.location.reload();
+                    // download(fileUrl, element.filename);
+                }
+            }
         }
     }
 });
@@ -139,7 +139,6 @@ listen("item3clicked", (event) => {
 window.addEventListener("contextmenu", async (e) => {
     e.preventDefault();
 });
-
 
 // window.addEventListener("contextmenu", async (e) => {
 //     e.preventDefault();
@@ -238,7 +237,6 @@ if (data.value != null) {
     }
 }
 
-
 function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const folderId = ""; //document.getElementById('folderId').value;
@@ -252,7 +250,6 @@ function uploadFile() {
         alert("Please select a file to upload.");
         return;
     }
-
 
     const formData = new FormData();
     formData.set("file", file);
@@ -388,7 +385,6 @@ function onMyDocumentsClick() {
 function previewImage(file, id) {
     const img = document.getElementById(id);
     img.src = `https://mycloud.doshare.me/download/${data.value[myfiles.indexOf(file)].file_id}?user_id=${userId}`;
-
 }
 function resetPreviewImage(event) {
     const img = event.target;
@@ -398,7 +394,6 @@ function resetPreviewImage(event) {
     document.getElementById("hover-btn").classList.remove("hidden");
     document.getElementById("cancel-btn").classList.add("hidden");
 }
-
 </script>
 
 <template>
@@ -470,69 +465,69 @@ function resetPreviewImage(event) {
                 class="suse-400 text-center content-center justify-items-center"
             >
                 <!-- If Empty -->
-                        My Documents
-        </div>
-        <div v-if="myfiles[0] == null">
-            <div
-                class="suse-400 text-center content-center justify-items-center"
-            >
-                <!-- If Empty -->
-
-                <h2 class="text-2xl m-2">Let's fill up this folder</h2>
-                <div class="flex flex-grow flex-col">
-                    <img
-                        class="content-center self-center justify-center items-center object-center"
-                        src="https://pub-a1d8320a13a348a8abae7ee559fd2c49.r2.dev/ruby-box-filled-with-stuff.png"
-                        alt=""
-                    />
-                </div>
+                My Documents
+            </div>
+            <div v-if="myfiles[0] == null">
                 <div
-                    id="upload-file"
-                    class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
-                    role="alert"
+                    class="suse-400 text-center content-center justify-items-center"
                 >
+                    <!-- If Empty -->
+
+                    <h2 class="text-2xl m-2">Let's fill up this folder</h2>
+                    <div class="flex flex-grow flex-col">
+                        <img
+                            class="content-center self-center justify-center items-center object-center"
+                            src="https://pub-a1d8320a13a348a8abae7ee559fd2c49.r2.dev/ruby-box-filled-with-stuff.png"
+                            alt=""
+                        />
+                    </div>
                     <div
                         id="upload-file"
-                        class="ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+                        class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
                         role="alert"
                     >
-                        <button
-                            id="hover-btn"
-                            class="btn btn-primary text-sm"
-                            @mouseenter="uploadpopuphover"
+                        <div
+                            id="upload-file"
+                            class="ease-in-out fixed flex items-center z-50 max-w-2xl p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+                            role="alert"
                         >
-                            Add Document
-                        </button>
-                        <input
-                            type="file"
-                            id="fileInput"
-                            class="file-input file-input-bordered rounded-md hidden"
-                        />
-                        <button
-                            @click="uploadFile"
-                            class="btn text-sm hidden"
-                            id="upload-btn"
+                            <button
+                                id="hover-btn"
+                                class="btn btn-primary text-sm"
+                                @mouseenter="uploadpopuphover"
+                            >
+                                Add Document
+                            </button>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                class="file-input file-input-bordered rounded-md hidden"
+                            />
+                            <button
+                                @click="uploadFile"
+                                class="btn text-sm hidden"
+                                id="upload-btn"
+                            >
+                                Upload
+                            </button>
+                            <button
+                                id="cancel-btn"
+                                class="btn text-sm hidden"
+                                @click="uploadpopupcancel"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <div
+                            id="file-uploaded"
+                            class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
+                            role="alert"
                         >
-                            Upload
-                        </button>
-                        <button
-                            id="cancel-btn"
-                            class="btn text-sm hidden"
-                            @click="uploadpopupcancel"
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                    <div
-                        id="file-uploaded"
-                        class="ease-in-out fixed flex items-center w-full z-50 max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800 hidden"
-                        role="alert"
-                    >
-                        File Uploaded
+                            File Uploaded
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- If Existing Files -->
+                <!-- If Existing Files -->
                 <!-- <h2 class="text-2xl m-2">Let's fill up this folder</h2>
                 <div class="flex flex-grow flex-col">
                     <img
@@ -541,7 +536,6 @@ function resetPreviewImage(event) {
                         alt=""
                     />
                 </div> -->
-         
             </div>
             <!-- If Existing Files -->
 
@@ -612,25 +606,109 @@ function resetPreviewImage(event) {
                             }
                         "
                     >
-                    <img class="w-48 max-h-48 overflow-hidden" :key="'grid-jpg-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-if="file.slice(-4)=='.jpg'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
-      <img class="w-48 max-h-48 overflow-hidden" :key="'grid-png-'+myfiles.indexOf(file)" :id="'grid-image-'+myfiles.indexOf(file)" @mouseenter="previewImage(file,'grid-image-'+myfiles.indexOf(file))" @mouseleave="resetPreviewImage" v-else-if="file.slice(-4)=='.png'" src="https://img.icons8.com/3d-fluency/94/picture--v1.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-4)=='.pdf'" src="https://img.icons8.com/fluency/96/adobe-acrobat.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-4)=='xlsx'" src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-4)=='pptx'" src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-4)=='docx'" src="https://img.icons8.com/fluency/96/ms-word.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-4)=='json'" src="https://img.icons8.com/fluency/96/json.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-5)=='blend'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
-      <img width="96" height="96" v-else-if="file.slice(-5)=='block'" src="https://img.icons8.com/fluency/96/blender-3d.png" alt="product-documents"/>
+                        <img
+                            class="w-48 max-h-48 overflow-hidden"
+                            :key="'grid-jpg-' + myfiles.indexOf(file)"
+                            :id="'grid-image-' + myfiles.indexOf(file)"
+                            @mouseenter="
+                                previewImage(
+                                    file,
+                                    'grid-image-' + myfiles.indexOf(file),
+                                )
+                            "
+                            @mouseleave="resetPreviewImage"
+                            v-if="file.slice(-4) == '.jpg'"
+                            src="https://img.icons8.com/3d-fluency/94/picture--v1.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            class="w-48 max-h-48 overflow-hidden"
+                            :key="'grid-png-' + myfiles.indexOf(file)"
+                            :id="'grid-image-' + myfiles.indexOf(file)"
+                            @mouseenter="
+                                previewImage(
+                                    file,
+                                    'grid-image-' + myfiles.indexOf(file),
+                                )
+                            "
+                            @mouseleave="resetPreviewImage"
+                            v-else-if="file.slice(-4) == '.png'"
+                            src="https://img.icons8.com/3d-fluency/94/picture--v1.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-4) == '.pdf'"
+                            src="https://img.icons8.com/fluency/96/adobe-acrobat.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-4) == 'xlsx'"
+                            src="https://img.icons8.com/fluency/96/microsoft-excel-2019.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-4) == 'pptx'"
+                            src="https://img.icons8.com/fluency/96/microsoft-powerpoint-2019.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-4) == 'docx'"
+                            src="https://img.icons8.com/fluency/96/ms-word.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-4) == 'json'"
+                            src="https://img.icons8.com/fluency/96/json.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-5) == 'blend'"
+                            src="https://img.icons8.com/fluency/96/blender-3d.png"
+                            alt="product-documents"
+                        />
+                        <img
+                            width="96"
+                            height="96"
+                            v-else-if="file.slice(-5) == 'block'"
+                            src="https://img.icons8.com/fluency/96/blender-3d.png"
+                            alt="product-documents"
+                        />
 
-      <img width="96" height="96" v-else src="https://img.icons8.com/3d-fluency/94/document.png" alt="product-documents"/>
+                        <img
+                            width="96"
+                            height="96"
+                            v-else
+                            src="https://img.icons8.com/3d-fluency/94/document.png"
+                            alt="product-documents"
+                        />
 
-
-      <span class="inline h-8 text-sm" v-if="file.length<=20">
-        {{ file.slice(0, 12)+""+file.slice(12,20) }}
-        </span>
-      <span class="inline h-8 text-sm" v-else>
-        {{ file.slice(0, 12)+"\n"+file.slice(12,20)+".."+file.slice(-4) }}
-      </span>
+                        <span
+                            class="inline h-8 text-sm"
+                            v-if="file.length <= 20"
+                        >
+                            {{ file.slice(0, 12) + "" + file.slice(12, 20) }}
+                        </span>
+                        <span class="inline h-8 text-sm" v-else>
+                            {{
+                                file.slice(0, 12) +
+                                "\n" +
+                                file.slice(12, 20) +
+                                ".." +
+                                file.slice(-4)
+                            }}
+                        </span>
                     </span>
                 </div>
             </div>

@@ -15,10 +15,10 @@ const { data } = await useFetch("/api/index");
 // Be sure to set `build.withGlobalTauri` in `tauri.conf.json` to true
 // const invoke = window.__TAURI__.invoke;
 // ------------------------
-// window.addEventListener("contextmenu", async (e) =>{
-//   e.preventDefault();
-// }
-// );
+window.addEventListener("contextmenu", async (e) =>{
+  e.preventDefault();
+}
+);
 const PAY_API_BASE_URL = 'https://pay.doshare.me'; // Adjust this to your payment backend URL
 function download(uri, filename = uri) {
   return fetch(new Request(uri))
@@ -83,8 +83,8 @@ const {data,error}= $fetch(`${API_BASE_URL}/search?q=&user_id=${userId}`).then((
 
 });
 
-            
-       
+
+
 });
 listen("item3clickedrecent", (event) => {
 
@@ -117,10 +117,10 @@ listen("item3clickedrecent", (event) => {
 });
 
 
-window.addEventListener("contextmenu", async (e) =>{
+/*window.addEventListener("contextmenu", async (e) =>{
   e.preventDefault();
 }
-);
+);*/
 
 listen('tauri://file-drop', event => {
   console.log(event)
@@ -132,14 +132,14 @@ supabase.auth.getSession().then((session) => {
   }
 })
 var authdata = await supabase.auth.getUser()
-
-//if(authdata.error.name="AuthSessionMissingError"){
-//  authdata= await supabase.auth
-//      .signInWithPassword({
-//          email: localStorage.getItem('app-email'),
-///          password: localStorage.getItem('app-password')
-//})
-//}
+// MacOS,Linux only Code
+if(authdata.error.name="AuthSessionMissingError"){
+  authdata= await supabase.auth
+      .signInWithPassword({
+          email: localStorage.getItem('app-email'),
+          password: localStorage.getItem('app-password')
+})
+}
 console.log(authdata)
 
 function sendFeedback() {
@@ -183,7 +183,7 @@ if(recentdata!=null){
 window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}
 function declareSearch(event) {
   document.getElementById('search-tab').classList.add('hidden')
-  
+
   // document.getElementById('search-toast-bottom-left').classList.remove('hidden');setTimeout(function(){document.getElementById('search-toast-bottom-left').classList.add('hidden')},800)
   searchwindow.showModal()
 
@@ -204,7 +204,7 @@ function showAccountSwitcher(params) {
               console.log("User is active")
             }else if(data.detail.toString()=="User not found"){
                 navigateTo('/onboard/1')
-            } 
+            }
 
         }).catch((error) => {
             console.log(error);
@@ -524,7 +524,7 @@ function upcomingtoast() {
 <!-- Open the modal using ID.showModal() method -->
 <dialog id="searchwindow" class="modal modal-bottom sm:modal-middle">
   <div class="modal-box">
-    
+
     <div class="text-2xl font-bold text-center m-5 py-2" > What's on your mind , <span class="bg-gradient-to-r from-yellow-600 to-red-600 bg-clip-text text-transparent cursor-pointer" @mouseenter="accountmouseenter" @mouseleave="accountmouseleave" > {{authdata.data.user.email.split("@",1)[0]}} <button ref="accountswitch" id="accountswitch" @click="showAccountSwitcher" class="btn btn-circle bg-gradient-to-b from-gray-600 to-transparent btn-sm btn-outline hover:bg-gradient-to-t hover:from-transparent hover:from-35% hover:via-red-200 hover:to-indigo-100 hidden"><img src="https://img.icons8.com/?size=96&id=NEy7G0LIrhsc&format=png&color=000000" class="w-4 h-4" alt="switch profile"></button></span>? 🔍</div>
 
     <p class="py-4 bg-base-200 rounded-box">
@@ -588,7 +588,7 @@ function upcomingtoast() {
       <span class="inline h-8 text-sm" v-else>
         {{ file.slice(0, 12)+".."+"\n"+file.slice(13,20)+file.slice(-4) }}
       </span>
-                    
+
     </a>
   </li>
 
