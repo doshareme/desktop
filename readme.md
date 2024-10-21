@@ -3,9 +3,17 @@ https://imagecdn.app/v1/images/https%3A%2F%2Fgithub-production-user-asset-6210df
 )
 
 # DoShare Personal Cloud for Desktop
-![exported_image (5)](https://github.com/user-attachments/assets/a1cf93c3-5836-419a-92b7-7a1104897644)
 
-This repository contains source code for desktop clients for DoShare Personal Cloud, support MacOS, Linux, and Windows operating systems is underway.
+
+https://github.com/user-attachments/assets/be5e1908-ce46-4bc3-a5d3-ce5683f9be6c
+
+
+
+This repository contains source code for desktop clients for DoShare Personal Cloud, support MacOS, Linux, and Windows operating systems is included as scope any features and ideas or bugs will be considered. Any other issue outside these specific OS is outside the scope of the repository.
+
+
+## Contribution Docs are available at [contribution.md](https://github.com/doshareme/desktop/blob/desktop/contribution.md)
+
 <!---
 ToDo:
 1. **Overview**
