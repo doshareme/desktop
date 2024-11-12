@@ -67,5 +67,5 @@ jobs:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v4.1.8
         with:
-          path: ./src-tauri/target/release/bundle
+          path: ./desktop/src-tauri/target/release/bundle
 
